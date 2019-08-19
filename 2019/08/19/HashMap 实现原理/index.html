@@ -192,7 +192,7 @@
 <li>对称性：a.equals(b) == true时，b.equals(a) 也为 true。 </li>
 <li>传递性：a.equals(b) == true时，且b.equals(c) == true，那么 a.equals(c) 也要为 true。 </li>
 </ol>
-<h5 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h5><h5 id="JDK-1-8-优化"><a href="#JDK-1-8-优化" class="headerlink" title="JDK 1.8 优化"></a><code>JDK 1.8</code> 优化</h5><blockquote>
+<h5 id="JDK-1-8-优化"><a href="#JDK-1-8-优化" class="headerlink" title="JDK 1.8 优化"></a><code>JDK 1.8</code> 优化</h5><blockquote>
 <p>以上都是基于 <code>JDK 1.7</code> 进行分析的，<code>JDK 1.8</code> 在 <code>HashMap</code> 实现方式上做了一些优化。数据结构的存储由数组+链表的方式，变化为数组+链表+红黑树的存储方式，当链表长度超过阈值（8）时，将链表转换为红黑树。性能上有了提升。</p>
 </blockquote>
 
@@ -342,12 +342,12 @@
     </li>
     
     <li>
-        <a href="/categories/教程/">教程</a>
+        <a href="/categories/Hexo/">Hexo</a>
         <span class="badge">(1)</span>
     </li>
     
     <li>
-        <a href="/categories/Hexo/">Hexo</a>
+        <a href="/categories/教程/">教程</a>
         <span class="badge">(1)</span>
     </li>
     
@@ -362,9 +362,9 @@
   
     <a class="tag-item" href="/tags/HashMap/" title="HashMap">HashMap (1)</a>
   
-    <a class="tag-item" href="/tags/hexo-github/" title="hexo / github">hexo / github (1)</a>
-  
     <a class="tag-item" href="/tags/md/" title="md">md (1)</a>
+  
+    <a class="tag-item" href="/tags/hexo-github/" title="hexo / github">hexo / github (1)</a>
   
 </div>
     </section>
