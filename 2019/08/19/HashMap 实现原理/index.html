@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=11,IE=10,IE=9,IE=8">
     <meta name="baidu-site-verification" content="dIcXMeY8Ya">
     
-    <title>Hello World | 秦舒话</title>
+    <title>HashMap 实现原理 | 秦舒话</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
     <meta name="keywords" content="秦舒话">
     <meta name="description" content="个人前端小站">
@@ -56,19 +56,19 @@
         <div class="dropnav icon-paragraph-justify" id="JELON__btnDropNav"></div>
         <ul class="menu hidden" id="JELON__menu">
             
-            <li rel="/2019/08/14/hello-world/index.html" class="item ">
+            <li rel="/2019/08/19/HashMap 实现原理/index.html" class="item ">
                 <a href="/" title="首页" class="icon-home">&nbsp;首页</a>
             </li>
             
-            <li rel="/2019/08/14/hello-world/index.html" class="item ">
+            <li rel="/2019/08/19/HashMap 实现原理/index.html" class="item ">
                 <a href="/lab/" title="实验室" class="icon-lab">&nbsp;实验室</a>
             </li>
             
-            <li rel="/2019/08/14/hello-world/index.html" class="item ">
+            <li rel="/2019/08/19/HashMap 实现原理/index.html" class="item ">
                 <a href="/about/" title="关于" class="icon-about">&nbsp;关于</a>
             </li>
             
-            <li rel="/2019/08/14/hello-world/index.html" class="item ">
+            <li rel="/2019/08/19/HashMap 实现原理/index.html" class="item ">
                 <a href="/comment/" title="留言" class="icon-comment">&nbsp;留言</a>
             </li>
             
@@ -119,37 +119,93 @@
 <!-- 文章 -->
 <article class="post article">
     <header class="text-center">
-        <h3 class="post-title"><span>Hello World</span></h3>
+        <h3 class="post-title"><span>HashMap 实现原理</span></h3>
     </header>
     <p class="post-meta text-center">
         秦舒话 发表于
-        <time datetime="2019-08-14T11:44:40.033Z">2019-08-14</time>
+        <time datetime="2019-08-19T14:03:21.535Z">2019-08-19</time>
     </p>
     <div class="post-content">
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+        <h5 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h5><blockquote>
+<p><code>HashMap</code> 基于 <code>Map</code> 接口实现，元素以键值对的方式存储，并且允许使用 <code>null</code> 键和 <code>null</code> 值，因为 <code>key</code> 不允许重复，因此只能有一个键为 <code>null</code>， <code>HashMap</code> 不能保证放入元素的顺序，它是<strong>无序的</strong>，和放入的顺序并不能相同。<code>HashMap</code> 是<strong>线程不安全</strong>的。</p>
+</blockquote>
+<p>注：<em>有序存储键值对数据时，可以使用 <code>LinkedHashMap</code>；要保证线程安全时，可以使用 <code>ConcurrentHashMap</code>。</em></p>
+<h5 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h5><blockquote>
+<p><code>HashMap</code> 由<strong>数组</strong>和<strong>链表</strong>来实现对数据的存储。<code>HashMap</code> 采用 <code>Entry</code> 数组来存储键值对，每一个键值对组成了一个 <code>Entry</code> 实体，<code>Entry</code> 类实际上是一个单向的链表结构，它具有 <code>Next</code> 指针，可以连接下一个 <code>Entry</code> 实体，以此来解决 <code>Hash</code> 冲突的问题。</p>
+</blockquote>
+<ol>
+<li>数组存储区间是连续的，占用内存严重，故空间复杂的很大。但数组的二分查找时间复杂度小，为O(1)；数组的特点是：查找容易，插入和删除困难。</li>
+<li>链表存储区间离散，占用内存比较宽松，故空间复杂度很小，但时间复杂度很大，达O(N)。链表的特点是：查找困难，插入和删除容易。</li>
+</ol>
+<p>注：<em><code>HashMap</code> 里面实现一个静态内部类 <code>Entry</code>，其重要的属性有 <code>hash</code>，<code>key</code>，<code>value</code>，<code>next</code>。</em></p>
+<p><code>HashMap</code> 存储规则：每个元素存储的是一个链表的头结点。那么一个长度16的数组中，元素是按照什么规则存放到数组中呢。是通过元素的 <code>key</code> 的哈希值（<code>key</code> 的 <code>hashcode</code> 进行二次 <code>hash</code>）对数组长度 - 1的位运算得到存储位置的下标。比如哈希值8（8 &amp; (16 - 1) = 8）、12（12 &amp; (16 - 1) = 12）、40（40 &amp; (16 - 1) = 8）、140（140 &amp; (16 - 1) = 12），所以8和40存储在数组下标为8的位置；12和140存储在数组下标为12的位置。</p>
+<p><code>HashMap</code> 链式数据结构：<code>Entry</code> 类中有一个 <code>next</code> 属性，指向下一个 <code>Entry</code>。比如第一个键值对A进来，通过计算其 <code>key</code> 的 <code>hash</code> 得到的index = 0，记做：<em>Entry[0] = A</em>；此时又有一个键值对B进来，通过计算得到的index也等于0，此时 <code>HashMap</code> 会使得<em>Entry[0] = B</em>，<em>B.next = A</em>；若这时又进来一个键值对C，同样的index等于0，此时 <code>HashMap</code> 会使得<em>Entry[0] = C</em>，<em>C.next = B</em>；index = 0的位置存储了A、B、C三个键值对，它们之间通过 <code>next</code> 这个属性链接在一起，所以<strong>数组中存储的是最后插入的元素，先插入的元素终会被放到Entry链的尾部</strong>，这里你也就明白为什么 <code>HashMap</code> 是无序的了吧。</p>
+<h5 id="扩容机制"><a href="#扩容机制" class="headerlink" title="扩容机制"></a>扩容机制</h5><blockquote>
+<p>添加元素时，会判断当前元素个数，当大于等于阈<a href="读音yù。">^yu</a>值（数组的长度 * 加载因子的值）时，就会自动扩容。扩容就是重新计算容量，但是 <code>Java</code> 中数组是无法自动扩容的，所以需要新的数组代替已有的容量小的数组。</p>
+</blockquote>
+<p><em>比如长度为16的数组，加载因子为0.75，则阈值为 <code>16 * 0.75 = 12</code>，也就是说当元素个数达到12，在添加第13个元素时会进行扩容。即  <code>16 * 2 = 32</code>，那么扩容后的容量是32。这里先抛出一个问题，为什么每次扩容都在原有容量乘以2，继续往下看。</em></p>
+<p>注：<code>HashMap</code> 使用的是懒加载，构造完 <code>HashMap</code> 对象后，只要不进行 <code>put</code> 方法插入元素之前，<code>HashMap</code> 并不会去初始化或者扩容。</p>
+<p>问题：为什么容量大小为2的n次幂效率最好？</p>
+<table>
+<thead>
+<tr>
+<th align="left">&amp; 1111</th>
+<th align="center">8</th>
+<th align="center">9</th>
+<th align="center">8</th>
+<th align="center">9</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">hashcode值</td>
+<td align="center">1  0  0  0</td>
+<td align="center">1  0  0  1</td>
+<td align="center">1  0  0  0</td>
+<td align="center">1  0  0  1</td>
+</tr>
+<tr>
+<td align="left">数组长度 - 1</td>
+<td align="center">1  1  1  1</td>
+<td align="center">1  1  1  1</td>
+<td align="center">1  1  1  0</td>
+<td align="center">1  1  1  0</td>
+</tr>
+<tr>
+<td align="left">结果</td>
+<td align="center">1  0  0  0</td>
+<td align="center">1  0  0  1</td>
+<td align="center">1  0  0  0</td>
+<td align="center">1  0  0  0</td>
+</tr>
+</tbody></table>
+<p>如上表，左边两组是数组长度为16(2的4次幂)，右边两组是数组长度为15。两组的 <code>hashcode</code> 均为8 和 9，然而与 <code>1110</code> 做位运算时，产生相同的结果，也是会存储到数组的同一个位置上，这就产生了碰撞，8 和 9会被放到同一个链表上，那么查询的时候就需要遍历这个链表，降低了查询的效率。我们还可以发现，当数组长度为15的时候，<code>hashcode</code> 的值会与14（1110）进行位运算，最后一位永远是0，那 <code>0001</code>，<code>0011</code>，<code>0101</code>，<code>1001</code>，<code>1011</code>，<code>0111</code>，<code>1101</code>这几个位置永远都不能存放元素，浪费空间。数组可使用的位置比数组长度小很多，这样会增加碰撞的几率，减慢查询的效率。</p>
+<blockquote>
+<p>数组长度为2的n次幂的时候，不同的 <code>key</code> 算得的 <code>index</code> 相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了，所以在存储大容量数据时，最好预先指定容量大小为2的n次幂（其实不指定为2的n次幂的话，HashMap也会以大于且最接近指定值大小的2的n次幂进行初始化），也解释了上面问题，为什么 <code>HashMap</code> 每次扩容都在原有容量上乘以2。</p>
+</blockquote>
+<p>扩容是一个特别耗性能的操作，所以在使用 <code>HashMap</code> 的时候，估算 <code>map</code> 的大小，初始化的时候给一个大致的数值，避免 <code>map</code> 进行频繁的扩容。那么这个数值多少才是最合适的值呢，下面看一个例子。</p>
+<p>例：假如有1000个元素需要存储到 <code>HashMap</code> 中，那么根据上面提到的容量大小为2的n次幂效率最好，那么 <code>new HashMap(1024)</code> 是比较合适的，但是上面也提到了，当存储元素达到阈值时，<code>HashMap</code> 会进行扩容，那么1024 * 0.75 &lt; 1000，所以为了不进行扩展，需要size * 0.75 &gt; 1000，那么可以得出 <code>new HashMap(2048)</code> 才是最合适的。 </p>
+<h5 id="重写-hashcode-和-equals-方法"><a href="#重写-hashcode-和-equals-方法" class="headerlink" title="重写 hashcode 和 equals 方法"></a>重写 <code>hashcode</code> 和 <code>equals</code> 方法</h5><p>疑问：为什么要重写 <code>hashcode</code> 和 <code>equals</code> 方法？</p>
+<p>根据上面介绍，我们知道想查找某个元素，就需要先获取其所在位置，那么首先计算 <code>key</code> 的 <code>hashcode</code>，找到其在数组中对应的位置，然后通过 <code>key</code> 的 <code>equals</code> 方法在对应位置的链表中找到元素。因此 <code>hashcode</code> 与 <code>equals</code> 方法对于找到对应元素是两个关键方法。 </p>
+<p>重写 <code>equals</code> 方法需要满足三个条件：</p>
+<ol>
+<li>自反性：a.equals(a) == true。 </li>
+<li>对称性：a.equals(b) == true时，b.equals(a) 也为 true。 </li>
+<li>传递性：a.equals(b) == true时，且b.equals(c) == true，那么 a.equals(c) 也要为 true。 </li>
+</ol>
+<h5 id="实际应用"><a href="#实际应用" class="headerlink" title="实际应用"></a>实际应用</h5><h5 id="JDK-1-8-优化"><a href="#JDK-1-8-优化" class="headerlink" title="JDK 1.8 优化"></a><code>JDK 1.8</code> 优化</h5><blockquote>
+<p>以上都是基于 <code>JDK 1.7</code> 进行分析的，<code>JDK 1.8</code> 在 <code>HashMap</code> 实现方式上做了一些优化。数据结构的存储由数组+链表的方式，变化为数组+链表+红黑树的存储方式，当链表长度超过阈值（8）时，将链表转换为红黑树。性能上有了提升。</p>
+</blockquote>
 
     </div>
     <p class="post-meta">
         <span class="post-cat">分类：
-            <a class="cat-link" href="/categories/Hexo/">Hexo</a>
+            <a class="cat-link" href="/categories/HashMap/">HashMap</a>
         </span>
         <span class="post-tags">
             标签：
             
     
-        <a href="/tags/md/" title="md">md</a>
+        <a href="/tags/HashMap/" title="HashMap">HashMap</a>
     
 
         </span>
@@ -175,18 +231,18 @@
     
     <span class="prev fl">
         上一篇<br >
-        <a href="/2019/08/14/Hexo-GitHub搭建个人博客/">
-            
-                Hexo + GitHub 搭建个人博客
-            
-        </a>
+        <a href="javascript: void(0);">没有上一篇了</a>
     </span>
     
 
     
     <span class="next fr">
         下一篇<br >
-        <a href="javascript: void(0);">没有下一篇了</a>
+        <a href="/2019/08/14/Hexo-GitHub搭建个人博客/">
+            
+                Hexo + GitHub 搭建个人博客
+            
+        </a>
     </span>
     
 </div>
@@ -261,7 +317,7 @@
   <script>
   JELON.Comment({
     container: 'comments',
-    label: 'hello-world' || '2019/08/14/hello-world/',
+    label: 'HashMap 实现原理' || '2019/08/19/HashMap 实现原理/',
     owner: 'your_github_id',
     repo: 'your_blog_comments',
     clientId: 'your_client_id',
