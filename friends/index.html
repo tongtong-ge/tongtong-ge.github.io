@@ -185,7 +185,7 @@
         
         <li><div class="divider"></div></li>
         <li>
-            <a href="https://github.com/blinkfox/hexo-theme-matery" class="waves-effect waves-light" target="_blank">
+            <a href="https://github.com/tongtong-ge" class="waves-effect waves-light" target="_blank">
                 <i class="fa fa-github-square fa-fw"></i>Fork Me
             </a>
         </li>
@@ -241,7 +241,7 @@
     }
 </style>
 
-<a href="https://github.com/blinkfox/hexo-theme-matery" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
+<a href="https://github.com/tongtong-ge" class="github-corner tooltipped hide-on-med-and-down" target="_blank"
    data-tooltip="Fork Me" data-position="left" data-delay="50">
     <svg viewBox="0 0 250 250" aria-hidden="true">
         <path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path>
@@ -481,29 +481,29 @@
     </div>
 
     
+        <link rel="stylesheet" href="/libs/gitalk/gitalk.css">
+<link rel="stylesheet" href="/css/my-gitalk.css">
 
-    
-        <link rel="stylesheet" href="/libs/gitment/gitment-default.css">
-<link rel="stylesheet" href="/css/gitment.css">
-
-<div class="gitment-card card" data-aos="fade-up">
-    <div id="gitment-content" class="card-content"></div>
+<div class="card gitalk-card" data-aos="fade-up">
+    <div id="gitalk-container" class="card-content"></div>
 </div>
 
-<script src="/libs/gitment/gitment.js"></script>
+<script src="/libs/gitalk/gitalk.min.js"></script>
 <script>
-var gitment = new Gitment({
-    id: 'Wed Aug 21 2019 20:59:56 GMT+0800',
-    owner: 'tongtong-ge',
-    repo: 'tongtong-ge.github.io',
-    oauth: {
-        client_id: 'Iv1.d68f40b7f40e9917',
-        client_secret: 'c8d1e26141ab67ec80a90567db589617fb6b5d98'
-    }
-});
+    let gitalk = new Gitalk({
+        clientID: 'Iv1.d68f40b7f40e9917',
+        clientSecret: 'c8d1e26141ab67ec80a90567db589617fb6b5d98',
+        repo: 'tongtong-ge.github.io',
+        owner: 'tongtong-ge',
+        admin: null,
+        id: '2019-08-21T20-59-56',
+        distractionFreeMode: false  // Facebook-like distraction free mode
+    });
 
-gitment.render('gitment-content');
+    gitalk.render('gitalk-container');
 </script>
+    
+
     
 
     
