@@ -447,7 +447,7 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
 <p><code>HashMap</code> 存储规则：每个元素存储的是一个链表的头结点。那么一个长度16的数组中，元素是按照什么规则存放到数组中呢。是通过元素的 <code>key</code> 的哈希值（<code>key</code> 的 <code>hashcode</code> 进行二次 <code>hash</code>）对数组长度 - 1的位运算得到存储位置的下标。比如哈希值8（8 &amp; (16 - 1) = 8）、12（12 &amp; (16 - 1) = 12）、40（40 &amp; (16 - 1) = 8）、140（140 &amp; (16 - 1) = 12），所以8和40存储在数组下标为8的位置；12和140存储在数组下标为12的位置。</p>
 <p><code>HashMap</code> 链式数据结构：<code>Entry</code> 类中有一个 <code>next</code> 属性，指向下一个 <code>Entry</code>。比如第一个键值对A进来，通过计算其 <code>key</code> 的 <code>hash</code> 得到的index = 0，记做：<em>Entry[0] = A</em>；此时又有一个键值对B进来，通过计算得到的index也等于0，此时 <code>HashMap</code> 会使得<em>Entry[0] = B</em>，<em>B.next = A</em>；若这时又进来一个键值对C，同样的index等于0，此时 <code>HashMap</code> 会使得<em>Entry[0] = C</em>，<em>C.next = B</em>；index = 0的位置存储了A、B、C三个键值对，它们之间通过 <code>next</code> 这个属性链接在一起，所以<strong>数组中存储的是最后插入的元素，先插入的元素终会被放到Entry链的尾部</strong>，这里你也就明白为什么 <code>HashMap</code> 是无序的了吧。</p>
 <h3 id="扩容机制"><a href="#扩容机制" class="headerlink" title="扩容机制"></a>扩容机制</h3><blockquote>
-<p>添加元素时，会判断当前元素个数，当大于等于阈<a href="读音yù。">^yu</a>值（数组的长度 * 加载因子的值）时，就会自动扩容。扩容就是重新计算容量，但是 <code>Java</code> 中数组是无法自动扩容的，所以需要新的数组代替已有的容量小的数组。</p>
+<p>添加元素时，会判断当前元素个数，当大于等于阈值（数组的长度 * 加载因子的值）时，就会自动扩容。扩容就是重新计算容量，但是 <code>Java</code> 中数组是无法自动扩容的，所以需要新的数组代替已有的容量小的数组。</p>
 </blockquote>
 <p><em>比如长度为16的数组，加载因子为0.75，则阈值为 <code>16 * 0.75 = 12</code>，也就是说当元素个数达到12，在添加第13个元素时会进行扩容。即  <code>16 * 2 = 32</code>，那么扩容后的容量是32。这里先抛出一个问题，为什么每次扩容都在原有容量乘以2，继续往下看。</em></p>
 <p>注：<code>HashMap</code> 使用的是懒加载，构造完 <code>HashMap</code> 对象后，只要不进行 <code>put</code> 方法插入元素之前，<code>HashMap</code> 并不会去初始化或者扩容。</p>
