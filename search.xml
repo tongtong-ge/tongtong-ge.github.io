@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>数据库事务机制及原理</title>
+      <link href="/2019/08/27/shu-ju-ku-shi-wu-ji-zhi-ji-yuan-li/"/>
+      <url>/2019/08/27/shu-ju-ku-shi-wu-ji-zhi-ji-yuan-li/</url>
+      
+        <content type="html"><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote><p>以下介绍是基于 <code>MySql</code> 数据库，<code>InnoDB</code> 存储引擎。</p></blockquote><h3 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h3><blockquote><p>事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部失败。简言之，数据库事务就是将一组 <code>sql</code> 语句组装起来，要么它们一起成功执行，否则全部失败回滚。</p></blockquote><h3 id="事务命令"><a href="#事务命令" class="headerlink" title="事务命令"></a>事务命令</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>        <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">commit</span>                   <span class="comment"># 提交事务</span></span><br><span class="line"><span class="keyword">rollback</span>                 <span class="comment"># 事务回滚</span></span><br></pre></td></tr></table></figure><h3 id="事务四大特性"><a href="#事务四大特性" class="headerlink" title="事务四大特性"></a>事务四大特性</h3><ul><li><strong>原子性</strong>：事务是一个不可分割的工作单位，要么一起成功，要么全部失败。</li><li><strong>一致性</strong>：事务必须使数据库从一个一致性状态变换到另外一个一致性状态。</li><li><strong>隔离性</strong>：多个用户并发访问数据库时，数据库为每一个用户开启的事务，不能被其他事务的操作数据所干扰，多个并发事务之间要相互隔离。</li><li><strong>持久性</strong>：事务一旦被提交，它对数据库中数据的改变就是永久性的。</li></ul><h3 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h3><blockquote><p>多个事务操作数据库中数据时，数据库系统要负责隔离操作，以保证各个事务在获取数据时的准确性。</p></blockquote><h4 id="隔离级别分类"><a href="#隔离级别分类" class="headerlink" title="隔离级别分类"></a>隔离级别分类</h4><ul><li><p>Read Uncommitted（读未提交）</p><blockquote><p>允许所有事务可以看到未提交事务的数据，从而会产生脏读，不可重复读和幻像读。这种事务隔离级别最低。</p></blockquote></li><li><p>Read Committed（读已提交）</p><blockquote><p>一个事务不可以读取未提交事务的数据，同样的，一个事务在提交数据后才能被其他事务读取。由于在读取时没有加锁，所以在两次读取过程，如果有事务修改了数据，那么两次的读取内容是不一致的。这也就是不可重复读的原因。</p></blockquote></li><li><p>Repeatable Read（可重复读）</p><blockquote><p><code>MySql</code> 默认事务隔离级别，解决不可重复读问题。</p></blockquote></li><li><p>Serializable（可串形化）</p><blockquote><p>使用事务串形化调度，通过强制事务排序，使之不可能相互冲突，它是在每个读的数据行上加上共享锁。可能导致大量的超时和死锁现象。</p></blockquote></li></ul><p><em>查询数据库事务隔离级别 <code>sql</code> 语句</em></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> @@tx_isolation</span><br></pre></td></tr></table></figure><p><em>设置数据库事务隔离级别 <code>sql</code> 语句</em></p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">session</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> 隔离级别名</span><br></pre></td></tr></table></figure><h4 id="隔离性可能的并发问题"><a href="#隔离性可能的并发问题" class="headerlink" title="隔离性可能的并发问题"></a>隔离性可能的并发问题</h4><p><em>事务不考虑隔离性，可能引发的问题。</em></p><ol><li>脏读：一个事务读取了另一个事务未提交的数据。</li><li>不可重复读：一个事务内读取表中某行数据，多次读取结果不一致。<blockquote><p>不可重复读和脏读的区别：脏读是读取前一事务未提交的脏数据，不可重复读是读取前一事务已提交的数据。</p></blockquote></li><li>幻读：一个事务内读取到了别的事务插入的数据，导致前后读取不一致。</li></ol><table><thead><tr><th align="left">事务隔离级别</th><th align="center">脏读</th><th align="center">不可重复读</th><th align="center">幻读</th></tr></thead><tbody><tr><td align="left">Read Uncommitted</td><td align="center">可能出现</td><td align="center">可能出现</td><td align="center">可能出现</td></tr><tr><td align="left">Read Committed</td><td align="center">不会出现</td><td align="center">可能出现</td><td align="center">可能出现</td></tr><tr><td align="left">Repeatable Read</td><td align="center">不会出现</td><td align="center">不会出现</td><td align="center">可能出现</td></tr><tr><td align="left">Read Uncommitted</td><td align="center">不会出现</td><td align="center">不会出现</td><td align="center">不会出现</td></tr></tbody></table>]]></content>
+      
+      
+      <categories>
+          
+          <category> 数据库 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 事务 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>HashMap实现原理</title>
       <link href="/2019/08/19/hashmap-shi-xian-yuan-li/"/>
       <url>/2019/08/19/hashmap-shi-xian-yuan-li/</url>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tongtong-ge.github.io/"/>
-  <updated>2019-08-22T11:52:16.821Z</updated>
+  <updated>2019-08-27T11:43:51.010Z</updated>
   <id>https://tongtong-ge.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数据库事务机制及原理</title>
+    <link href="https://tongtong-ge.github.io/2019/08/27/shu-ju-ku-shi-wu-ji-zhi-ji-yuan-li/"/>
+    <id>https://tongtong-ge.github.io/2019/08/27/shu-ju-ku-shi-wu-ji-zhi-ji-yuan-li/</id>
+    <published>2019-08-27T11:42:23.669Z</published>
+    <updated>2019-08-27T11:43:51.010Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;以下介绍是基于 &lt;code&gt;MySql&lt;/code&gt; 数据库，&lt;code&gt;InnoDB&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="数据库" scheme="https://tongtong-ge.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="事务" scheme="https://tongtong-ge.github.io/tags/%E4%BA%8B%E5%8A%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>HashMap实现原理</title>
