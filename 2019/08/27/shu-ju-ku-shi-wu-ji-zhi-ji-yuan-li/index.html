@@ -412,14 +412,14 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        811
+                        1.6k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        2 分
+                        5 分
                     </div>
                     
                 
@@ -458,14 +458,14 @@
 <p>允许所有事务可以看到未提交事务的数据，从而会产生脏读，不可重复读和幻像读。这种事务隔离级别最低。</p>
 </blockquote>
 </li>
-<li><p>Read Committed（读已提交）</p>
+<li><p>Read Committed（读已提交，不可重复读）</p>
 <blockquote>
 <p>一个事务不可以读取未提交事务的数据，同样的，一个事务在提交数据后才能被其他事务读取。由于在读取时没有加锁，所以在两次读取过程，如果有事务修改了数据，那么两次的读取内容是不一致的。这也就是不可重复读的原因。</p>
 </blockquote>
 </li>
 <li><p>Repeatable Read（可重复读）</p>
 <blockquote>
-<p><code>MySql</code> 默认事务隔离级别，解决不可重复读问题。</p>
+<p>一个事务中多次执行统一读 <code>sql</code>，返回结果一样，解决不可重复读问题。<code>MySql</code> 默认事务隔离级别</p>
 </blockquote>
 </li>
 <li><p>Serializable（可串形化）</p>
@@ -475,10 +475,10 @@
 </li>
 </ul>
 <p><em>查询数据库事务隔离级别 <code>sql</code> 语句</em></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> @@tx_isolation</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> @@tx_isolation           <span class="comment"># 查询当前会话隔离级别</span></span><br><span class="line"><span class="keyword">select</span> @@global.tx_isolation    <span class="comment"># 查询系统当前隔离级别</span></span><br></pre></td></tr></table></figure>
 
 <p><em>设置数据库事务隔离级别 <code>sql</code> 语句</em></p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">session</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> 隔离级别名</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">session</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> 隔离级别名  <span class="comment"># 设置当前会话隔离级别</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> 隔离级别名   <span class="comment"># 设置系统当前隔离级别</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="隔离性可能的并发问题"><a href="#隔离性可能的并发问题" class="headerlink" title="隔离性可能的并发问题"></a>隔离性可能的并发问题</h4><p><em>事务不考虑隔离性，可能引发的问题。</em></p>
 <ol>
@@ -487,7 +487,10 @@
 <p>不可重复读和脏读的区别：脏读是读取前一事务未提交的脏数据，不可重复读是读取前一事务已提交的数据。</p>
 </blockquote>
 </li>
-<li>幻读：一个事务内读取到了别的事务插入的数据，导致前后读取不一致。</li>
+<li>幻读：一个事务内读取到了别的事务插入的数据，导致前后读取不一致。<blockquote>
+<p>幻读和脏读的区别：脏读是读取事务修改的数据，脏读是读取事务新增的数据。</p>
+</blockquote>
+</li>
 </ol>
 <table>
 <thead>
@@ -523,6 +526,56 @@
 <td align="center">不会出现</td>
 </tr>
 </tbody></table>
+<h3 id="隔离级别演示"><a href="#隔离级别演示" class="headerlink" title="隔离级别演示"></a>隔离级别演示</h3><ol>
+<li>将数据库事务隔离级别设置成 <code>Read UnCommitted</code> </li>
+</ol>
+<p>事务A：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;                  <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>; <span class="comment"># 查询账户信息，然后执行事务B</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>; <span class="comment"># 查询账户信息，发现余额多了100，说明读取到了事务B未提交的数据</span></span><br></pre></td></tr></table></figure>
+
+<p>事务B：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;                                   <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">update</span> <span class="keyword">account</span> <span class="keyword">set</span> money = money + <span class="number">100</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>; <span class="comment"># 执行后不要提交，执行事务A操作</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>将数据库事务隔离级别设置成 <code>Read Committed</code></li>
+</ol>
+<p>事务A：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>; <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>; <span class="comment"># 查询账户信息，然后执行事务B</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>; <span class="comment"># 查询账户信息，发现余额多了100，说明读取到了事务B已提交的数据</span></span><br></pre></td></tr></table></figure>
+
+<p>事务B：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;                                   <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">update</span> <span class="keyword">account</span> <span class="keyword">set</span> money = money + <span class="number">100</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>; <span class="comment"># 更新账号余额</span></span><br><span class="line"><span class="keyword">commit</span>;                                              <span class="comment"># 提交事务后，执行事务A操作</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这里你可以先不提交执行事务A操作，看是否会查询到事务B未提交的数据，答案是不可以的。大部分数据库隔离级别都是设置为 <code>Read Committed</code>。</p>
+</blockquote>
+<ol start="3">
+<li>将数据库事务隔离级别设置成 <code>Repeatable Read</code></li>
+</ol>
+<p>事务A：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;     <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span>; <span class="comment"># 查询账户信息，然后执行事务B</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span>; <span class="comment"># 查询账户信息，发现多了1条数据，说明读取到了事务B新增的数据。</span></span><br></pre></td></tr></table></figure>
+
+<p>事务B：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;                                   <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">account</span>(<span class="string">`name`</span>, money) <span class="keyword">VALUE</span>(<span class="string">"小明"</span>, <span class="number">1100.00</span>); <span class="comment"># 执行后不要提交，执行事务B操作</span></span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>以上实验是建立在数据库未引用 <code>MVVC</code>（一种基于多版本的并发控制协议）基础下的。在 <code>MVVC</code> 机制下，每行数据都有版本号，在查询时至少要找到不大于事务版本号的数据，即使提交了事务B，但是事务A依旧查不到新增加的数据，因为它的版本号比事务A的要大。</p>
+<ul>
+<li><code>MVVC</code> 只能在 <code>Read Committed</code> 和 <code>Repeatable Read</code> 隔离级别下工作。</li>
+<li>在 <code>READ UNCOMMITED</code> 隔离级别下找不到适合它们事务的行版本，所以不兼容。</li>
+<li>在 <code>Serializable</code> 隔离级别下读操作会锁定它们返回的数据，所以也不兼容。</li>
+</ul>
+</blockquote>
+<ol start="4">
+<li>将数据库事务隔离级别设置成 <code>Serializable</code></li>
+</ol>
+<p>事务A：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;     <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span>; <span class="comment"># 查询账户信息，然后执行事务B</span></span><br><span class="line"><span class="keyword">commit</span>;                <span class="comment"># 提交事务后，发现事务B执行成功</span></span><br></pre></td></tr></table></figure>
+
+<p>事务B：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;                                   <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">account</span>(<span class="string">`name`</span>, money) <span class="keyword">VALUE</span>(<span class="string">"小明"</span>, <span class="number">1100.00</span>); <span class="comment"># 无法插入数据，一直在等待事务B提交</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>虽然 <code>Serializable</code> 是最强的隔离级别，通过给事务中每次读取的行加锁，写加写锁，保证不产生幻读问题，但是也同样会导致大量超时以及争锁的问题。</p>
+</blockquote>
 
             </div>
             <hr/>
@@ -832,7 +885,7 @@
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">3.5k</span>
+                <span class="white-color">4.4k</span>
             
 
             
