@@ -420,7 +420,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.1k
+                        1k
                     </div>
                     
 
@@ -464,26 +464,114 @@
 <h3 id="多线程实现"><a href="#多线程实现" class="headerlink" title="多线程实现"></a>多线程实现</h3><h4 id="继承-Thread-类"><a href="#继承-Thread-类" class="headerlink" title="继承 Thread 类"></a>继承 <code>Thread</code> 类</h4><blockquote>
 <p><code>Thread</code> 类是在 <code>java.lang</code> 包中定义的，继承 <code>Thread</code> 类必须重写 <code>run</code> 方法。</p>
 </blockquote>
-<figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thread1</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	 * 重写run方法。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">		System.out.println(<span class="string">"Thread1 running..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadTest1</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Thread t = <span class="keyword">new</span> Thread1();</span><br><span class="line">		t.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Thread1</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * 重写run方法。
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Thread1 running..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
+<span class="token keyword">class</span> <span class="token class-name">ThreadTest1</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Thread t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread1</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <blockquote>
 <p>程序启动运行 <code>main</code> 方法时，<code>JVM</code> 启动一个进程，主线程在 <code>main()</code> 调用时被创建。</p>
 </blockquote>
-<h4 id="实现-Runnable-接口"><a href="#实现-Runnable-接口" class="headerlink" title="实现 Runnable 接口"></a>实现 <code>Runnable</code> 接口</h4><figure class="highlight java"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Thread2</span> <span class="keyword">implements</span> <span class="title">Runnable</span> </span>&#123;</span><br><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 重写run方法。</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"Thread2 running..."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ThreadTest2</span> </span>&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">		Thread2 r = <span class="keyword">new</span> Thread2();</span><br><span class="line">		Thread t = <span class="keyword">new</span> Thread(r);</span><br><span class="line">		t.start();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="实现-Runnable-接口"><a href="#实现-Runnable-接口" class="headerlink" title="实现 Runnable 接口"></a>实现 <code>Runnable</code> 接口</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Thread2</span> <span class="token keyword">implements</span> <span class="token class-name">Runnable</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
+     * 重写run方法。
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Thread2 running..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
+<span class="token keyword">class</span> <span class="token class-name">ThreadTest2</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Thread2 r <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread2</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Thread t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>r<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <blockquote>
 <p><code>Runnbal</code> 不存在 <code>start()</code> 启动方法，故需要通过 <code>Thread</code> 类的构造函数 <code>Thread(Runnable target)</code>来构造对象，然后调用 <code>Thread</code> 对象的 <code>start()</code> 方法来启动多线程。</p>
 </blockquote>
 <p><em>继承 <code>Thread</code> 类不适合资源共享，而实现 <code>Runnable</code> 接口，则容易实现资源共享。</em></p>
-<h4 id="实现-Callable-接口"><a href="#实现-Callable-接口" class="headerlink" title="实现 Callable 接口"></a>实现 <code>Callable</code> 接口</h4><figure class="highlight"><table><tr><td class="code"><pre><span class="line">class Thread3 implements Callable &#123;</span><br><span class="line">	/**</span><br><span class="line">     * 重写call方法。</span><br><span class="line">     *</span><br><span class="line">     * @return 返回对象</span><br><span class="line">     * @throws Exception 异常</span><br><span class="line">     */</span><br><span class="line">    @Override</span><br><span class="line">    public Boolean call() throws Exception &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            System.out.println("Thread3 running...");</span><br><span class="line">            return true;</span><br><span class="line">        &#125; catch (Exception ex) &#123;</span><br><span class="line">            throw new Exception("发生异常");</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class ThreadTest3 &#123;</span><br><span class="line">	public static void main(String[] args) &#123;</span><br><span class="line">		FutureTask ft = new FutureTask&lt;&gt;(new Thread3());</span><br><span class="line">		Thread t = new Thread(ft);</span><br><span class="line">		t.start();</span><br><span class="line">		// get方法获取的是call的返回值。</span><br><span class="line">		System.out.println(ft.get());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="实现-Callable-接口"><a href="#实现-Callable-接口" class="headerlink" title="实现 Callable 接口"></a>实现 <code>Callable</code> 接口</h4><pre class=" language-json"><code class="language-json">class Thread3 implements Callable <span class="token punctuation">{</span>
+    /**
+     * 重写call方法。
+     *
+     * @return 返回对象
+     * @throws Exception 异常
+     */
+    @Override
+    public Boolean call(<span class="token punctuation">)</span> throws Exception <span class="token punctuation">{</span>
+        try <span class="token punctuation">{</span>
+            System.out.println(<span class="token string">"Thread3 running..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            return <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> catch (Exception ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            throw new Exception(<span class="token string">"发生异常"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
 
+class ThreadTest3 <span class="token punctuation">{</span>
+    public static void main(String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        FutureTask ft = new FutureTask&lt;>(new Thread3(<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Thread t = new Thread(ft<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t.start(<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        // get方法获取的是call的返回值。
+        System.out.println(ft.get(<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 <blockquote>
 <p>实现 <code>Callable</code> 类可在 <code>call</code> 方法中返回一个值，而且 <code>call</code> 方法可以抛出异常，而实现 <code>Runnable</code> 类在 <code>start</code> 方法没有返回值，也不会抛出异常。</p>
 </blockquote>
 <h4 id="设定优先级"><a href="#设定优先级" class="headerlink" title="设定优先级"></a>设定优先级</h4><blockquote>
 <p>设定优先级并不是100%执行，只是提高线程抢到 <code>CPU</code> 资源的可能性。</p>
 </blockquote>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="string">class</span> <span class="string">MyThread</span> <span class="string">extends</span> <span class="string">Thread</span> <span class="string">&#123;</span></span><br><span class="line">	<span class="string">//</span> <span class="string">线程名称。</span></span><br><span class="line">	<span class="string">private</span> <span class="string">String</span> <span class="string">name;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">//</span> <span class="string">构造器。</span></span><br><span class="line">	<span class="string">public</span> <span class="string">MyThread(String</span> <span class="string">name)</span> <span class="string">&#123;</span></span><br><span class="line">		<span class="string">this.name</span> <span class="string">=</span> <span class="string">name;</span></span><br><span class="line">	<span class="string">&#125;</span></span><br><span class="line"></span><br><span class="line">	<span class="string">/**</span></span><br><span class="line">	 <span class="string">*</span> <span class="string">重写run方法。</span></span><br><span class="line">     <span class="string">*/</span></span><br><span class="line">    <span class="string">@Override</span></span><br><span class="line">    <span class="string">public</span> <span class="string">void</span> <span class="string">run()</span> <span class="string">&#123;</span></span><br><span class="line">		<span class="string">System.out.println("Thread"</span> <span class="string">+</span> <span class="string">this.name</span> <span class="string">+</span> <span class="string">" running..."</span><span class="string">);</span></span><br><span class="line">    <span class="string">&#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br><span class="line"></span><br><span class="line"><span class="string">class</span> <span class="string">ThreadTest</span> <span class="string">&#123;</span></span><br><span class="line">	<span class="string">public</span> <span class="string">static</span> <span class="string">void</span> <span class="string">main(String[]</span> <span class="string">args)</span> <span class="string">&#123;</span></span><br><span class="line">		<span class="string">Thread</span> <span class="string">t1</span> <span class="string">=</span> <span class="string">new</span> <span class="string">MyThread("A");</span></span><br><span class="line">		<span class="string">Thread</span> <span class="string">t2</span> <span class="string">=</span> <span class="string">new</span> <span class="string">MyThread("B");</span></span><br><span class="line">		<span class="string">Thread</span> <span class="string">t3</span> <span class="string">=</span> <span class="string">new</span> <span class="string">MyThread("C");</span></span><br><span class="line"></span><br><span class="line">		<span class="string">//</span> <span class="string">设置优先级。</span></span><br><span class="line">		<span class="string">t1.setPriority(Thread.MIN_PRIORITY);</span></span><br><span class="line">		<span class="string">t2.setPriority(Thread.NORM_PRIORITY);</span></span><br><span class="line">		<span class="string">t3.setPriority(Thread.MAX_PRIORITY);</span></span><br><span class="line"></span><br><span class="line">		<span class="string">t1.start();</span></span><br><span class="line">		<span class="string">t2.start();</span></span><br><span class="line">		<span class="string">t3.start();</span></span><br><span class="line">	<span class="string">&#125;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<pre class=" language-yaml"><code class="language-yaml">class MyThread extends Thread <span class="token punctuation">{</span>
+    // 线程名称。
+    private String name;
+
+    // 构造器。
+    public MyThread(String name) <span class="token punctuation">{</span>
+        this.name = name;
+    <span class="token punctuation">}</span>
+
+    /**
+     * 重写run方法。
+     */
+    @Override
+    public void run() <span class="token punctuation">{</span>
+        System.out.println("Thread" + this.name + " running<span class="token punctuation">...</span>");
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+class ThreadTest <span class="token punctuation">{</span>
+    public static void main(String<span class="token punctuation">[</span><span class="token punctuation">]</span> args) <span class="token punctuation">{</span>
+        Thread t1 = new MyThread("A");
+        Thread t2 = new MyThread("B");
+        Thread t3 = new MyThread("C");
+
+        // 设置优先级。
+        t1.setPriority(Thread.MIN_PRIORITY);
+        t2.setPriority(Thread.NORM_PRIORITY);
+        t3.setPriority(Thread.MAX_PRIORITY);
+
+        t1.start();
+        t2.start();
+        t3.start();
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
+
             </div>
             <hr/>
 

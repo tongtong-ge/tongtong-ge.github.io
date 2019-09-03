@@ -441,8 +441,9 @@
 <h3 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h3><blockquote>
 <p>事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部失败。简言之，数据库事务就是将一组 <code>sql</code> 语句组装起来，要么它们一起成功执行，否则全部失败回滚。</p>
 </blockquote>
-<h3 id="事务命令"><a href="#事务命令" class="headerlink" title="事务命令"></a>事务命令</h3><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>        <span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">commit</span>                   <span class="comment"># 提交事务</span></span><br><span class="line"><span class="keyword">rollback</span>                 <span class="comment"># 事务回滚</span></span><br></pre></td></tr></table></figure>
-
+<h3 id="事务命令"><a href="#事务命令" class="headerlink" title="事务命令"></a>事务命令</h3><pre class=" language-sql"><code class="language-sql"><span class="token keyword">start</span> <span class="token keyword">transaction</span>        <span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">commit</span>                   <span class="token comment" spellcheck="true"># 提交事务</span>
+<span class="token keyword">rollback</span>                 <span class="token comment" spellcheck="true"># 事务回滚</span></code></pre>
 <h3 id="事务四大特性"><a href="#事务四大特性" class="headerlink" title="事务四大特性"></a>事务四大特性</h3><ul>
 <li><strong>原子性</strong>：事务是一个不可分割的工作单位，要么一起成功，要么全部失败。</li>
 <li><strong>一致性</strong>：事务必须使数据库从一个一致性状态变换到另外一个一致性状态。</li>
@@ -475,11 +476,11 @@
 </li>
 </ul>
 <p><em>查询数据库事务隔离级别 <code>sql</code> 语句</em></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> @@tx_isolation           <span class="comment"># 查询当前会话隔离级别</span></span><br><span class="line"><span class="keyword">select</span> @@global.tx_isolation    <span class="comment"># 查询系统当前隔离级别</span></span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> @<span class="token variable">@tx_isolation</span>           <span class="token comment" spellcheck="true"># 查询当前会话隔离级别</span>
+<span class="token keyword">select</span> @<span class="token variable">@global.tx_isolation</span>    <span class="token comment" spellcheck="true"># 查询系统当前隔离级别</span></code></pre>
 <p><em>设置数据库事务隔离级别 <code>sql</code> 语句</em></p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">session</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> 隔离级别名  <span class="comment"># 设置当前会话隔离级别</span></span><br><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> <span class="keyword">transaction</span> <span class="keyword">isolation</span> <span class="keyword">level</span> 隔离级别名   <span class="comment"># 设置系统当前隔离级别</span></span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">set</span> <span class="token keyword">session</span> <span class="token keyword">transaction</span> <span class="token keyword">isolation level</span> 隔离级别名  <span class="token comment" spellcheck="true"># 设置当前会话隔离级别</span>
+<span class="token keyword">set</span> <span class="token keyword">global</span> <span class="token keyword">transaction</span> <span class="token keyword">isolation level</span> 隔离级别名   <span class="token comment" spellcheck="true"># 设置系统当前隔离级别</span></code></pre>
 <h4 id="隔离性可能的并发问题"><a href="#隔离性可能的并发问题" class="headerlink" title="隔离性可能的并发问题"></a>隔离性可能的并发问题</h4><p><em>事务不考虑隔离性，可能引发的问题。</em></p>
 <ol>
 <li>脏读：一个事务读取了另一个事务未提交的数据。</li>
@@ -530,20 +531,34 @@
 <li>将数据库事务隔离级别设置成 <code>Read UnCommitted</code> </li>
 </ol>
 <p>事务A：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line"><span class="comment"># 查询账户信息，然后执行事务B     </span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>; </span><br><span class="line"><span class="comment"># 查询账户信息，发现余额多了100，说明读取到了事务B未提交的数据</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 查询账户信息，然后执行事务B     </span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> 
+<span class="token comment" spellcheck="true"># 查询账户信息，发现余额多了100，说明读取到了事务B未提交的数据</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> </code></pre>
 <p>事务B：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line"><span class="comment"># 执行后不要提交，执行事务A操作</span></span><br><span class="line"><span class="keyword">update</span> <span class="keyword">account</span> <span class="keyword">set</span> money = money + <span class="number">100</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 执行后不要提交，执行事务A操作</span>
+<span class="token keyword">update</span> account <span class="token keyword">set</span> money <span class="token operator">=</span> money <span class="token operator">+</span> <span class="token number">100</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
 <ol start="2">
 <li>将数据库事务隔离级别设置成 <code>Read Committed</code></li>
 </ol>
 <p>事务A：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line"><span class="comment"># 查询账户信息，然后执行事务B</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>;</span><br><span class="line"><span class="comment"># 查询账户信息，发现余额多了100，说明读取到了事务B已提交的数据</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 查询账户信息，然后执行事务B</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 查询账户信息，发现余额多了100，说明读取到了事务B已提交的数据</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
 <p>事务B：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line"><span class="comment"># 更新账号余额 </span></span><br><span class="line"><span class="keyword">update</span> <span class="keyword">account</span> <span class="keyword">set</span> money = money + <span class="number">100</span> <span class="keyword">where</span> <span class="keyword">id</span> = <span class="number">1</span>; </span><br><span class="line"><span class="comment"># 提交事务后，执行事务A操作</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 更新账号余额 </span>
+<span class="token keyword">update</span> account <span class="token keyword">set</span> money <span class="token operator">=</span> money <span class="token operator">+</span> <span class="token number">100</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> 
+<span class="token comment" spellcheck="true"># 提交事务后，执行事务A操作</span>
+<span class="token keyword">commit</span><span class="token punctuation">;</span>   </code></pre>
 <blockquote>
 <p>这里你可以先不提交执行事务A操作，看是否会查询到事务B未提交的数据，答案是不可以的。大部分数据库隔离级别都是设置为 <code>Read Committed</code>。</p>
 </blockquote>
@@ -551,11 +566,18 @@
 <li>将数据库事务隔离级别设置成 <code>Repeatable Read</code></li>
 </ol>
 <p>事务A：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line"><span class="comment"># 查询账户信息，然后执行事务B</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span>;</span><br><span class="line"><span class="comment"># 查询账户信息，发现多了1条数据，说明读取到了事务B新增的数据。</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 查询账户信息，然后执行事务B</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 查询账户信息，发现多了1条数据，说明读取到了事务B新增的数据。</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account<span class="token punctuation">;</span> </code></pre>
 <p>事务B：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;  </span><br><span class="line"><span class="comment"># 执行后不要提交，执行事务B操作</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">account</span>(<span class="string">`name`</span>, money) <span class="keyword">VALUE</span>(<span class="string">"小明"</span>, <span class="number">1100.00</span>); </span><br><span class="line"><span class="keyword">COMMIT</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>  
+<span class="token comment" spellcheck="true"># 执行后不要提交，执行事务B操作</span>
+<span class="token keyword">insert</span> account<span class="token punctuation">(</span><span class="token punctuation">`</span>name<span class="token punctuation">`</span><span class="token punctuation">,</span> money<span class="token punctuation">)</span> <span class="token keyword">VALUE</span><span class="token punctuation">(</span><span class="token string">"小明"</span><span class="token punctuation">,</span> <span class="token number">1100.00</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
+<span class="token keyword">COMMIT</span><span class="token punctuation">;</span></code></pre>
 <blockquote>
 <p>以上实验是建立在数据库未引用 <code>MVVC</code>（一种基于多版本的并发控制协议）基础下的。在 <code>MVVC</code> 机制下，每行数据都有版本号，在查询时至少要找到不大于事务版本号的数据，即使提交了事务B，但是事务A依旧查不到新增加的数据，因为它的版本号比事务A的要大。</p>
 <ul>
@@ -568,11 +590,17 @@
 <li>将数据库事务隔离级别设置成 <code>Serializable</code></li>
 </ol>
 <p>事务A：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line"><span class="comment"># 查询账户信息，然后执行事务B</span></span><br><span class="line"><span class="keyword">select</span> * <span class="keyword">from</span> <span class="keyword">account</span>; </span><br><span class="line"><span class="comment"># 提交事务后，发现事务B执行成功</span></span><br><span class="line"><span class="keyword">commit</span>;</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 查询账户信息，然后执行事务B</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account<span class="token punctuation">;</span> 
+<span class="token comment" spellcheck="true"># 提交事务后，发现事务B执行成功</span>
+<span class="token keyword">commit</span><span class="token punctuation">;</span>                </code></pre>
 <p>事务B：</p>
-<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 开启事务</span></span><br><span class="line"><span class="keyword">start</span> <span class="keyword">transaction</span>;</span><br><span class="line"><span class="comment"># 无法插入数据，一直在等待事务B提交</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">account</span>(<span class="string">`name`</span>, money) <span class="keyword">VALUE</span>(<span class="string">"小明"</span>, <span class="number">1100.00</span>);</span><br></pre></td></tr></table></figure>
-
+<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
+<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true"># 无法插入数据，一直在等待事务B提交</span>
+<span class="token keyword">insert</span> account<span class="token punctuation">(</span><span class="token punctuation">`</span>name<span class="token punctuation">`</span><span class="token punctuation">,</span> money<span class="token punctuation">)</span> <span class="token keyword">VALUE</span><span class="token punctuation">(</span><span class="token string">"小明"</span><span class="token punctuation">,</span> <span class="token number">1100.00</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </code></pre>
 <blockquote>
 <p>虽然 <code>Serializable</code> 是最强的隔离级别，通过给事务中每次读取的行加锁，写加写锁，保证不产生幻读问题，但是也同样会导致大量超时以及争锁的问题。</p>
 </blockquote>
