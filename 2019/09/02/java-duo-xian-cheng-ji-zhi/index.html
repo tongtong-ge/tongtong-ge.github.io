@@ -504,31 +504,31 @@
 <p><code>Runnbal</code> 不存在 <code>start()</code> 启动方法，故需要通过 <code>Thread</code> 类的构造函数 <code>Thread(Runnable target)</code>来构造对象，然后调用 <code>Thread</code> 对象的 <code>start()</code> 方法来启动多线程。</p>
 </blockquote>
 <p><em>继承 <code>Thread</code> 类不适合资源共享，而实现 <code>Runnable</code> 接口，则容易实现资源共享。</em></p>
-<h4 id="实现-Callable-接口"><a href="#实现-Callable-接口" class="headerlink" title="实现 Callable 接口"></a>实现 <code>Callable</code> 接口</h4><pre class=" language-json"><code class="language-json">class Thread3 implements Callable <span class="token punctuation">{</span>
-    /**
+<h4 id="实现-Callable-接口"><a href="#实现-Callable-接口" class="headerlink" title="实现 Callable 接口"></a>实现 <code>Callable</code> 接口</h4><pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Thread3</span> <span class="token keyword">implements</span> <span class="token class-name">Callable</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">/**
      * 重写call方法。
      *
      * @return 返回对象
      * @throws Exception 异常
-     */
-    @Override
-    public Boolean call(<span class="token punctuation">)</span> throws Exception <span class="token punctuation">{</span>
-        try <span class="token punctuation">{</span>
-            System.out.println(<span class="token string">"Thread3 running..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            return <span class="token boolean">true</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span> catch (Exception ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-            throw new Exception(<span class="token string">"发生异常"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> Boolean <span class="token function">call</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">throws</span> Exception <span class="token punctuation">{</span>
+        <span class="token keyword">try</span> <span class="token punctuation">{</span>
+            System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Thread3 running..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span> <span class="token keyword">catch</span> <span class="token punctuation">(</span><span class="token class-name">Exception</span> ex<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">throw</span> <span class="token keyword">new</span> <span class="token class-name">Exception</span><span class="token punctuation">(</span><span class="token string">"发生异常"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-class ThreadTest3 <span class="token punctuation">{</span>
-    public static void main(String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        FutureTask ft = new FutureTask&lt;>(new Thread3(<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        Thread t = new Thread(ft<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        t.start(<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        // get方法获取的是call的返回值。
-        System.out.println(ft.get(<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">class</span> <span class="token class-name">ThreadTest3</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        FutureTask ft <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">FutureTask</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Thread3</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Thread t <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Thread</span><span class="token punctuation">(</span>ft<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token comment" spellcheck="true">// get方法获取的是call的返回值。</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>ft<span class="token punctuation">.</span><span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 <blockquote>
@@ -537,38 +537,38 @@ class ThreadTest3 <span class="token punctuation">{</span>
 <h4 id="设定优先级"><a href="#设定优先级" class="headerlink" title="设定优先级"></a>设定优先级</h4><blockquote>
 <p>设定优先级并不是100%执行，只是提高线程抢到 <code>CPU</code> 资源的可能性。</p>
 </blockquote>
-<pre class=" language-yaml"><code class="language-yaml">class MyThread extends Thread <span class="token punctuation">{</span>
-    // 线程名称。
-    private String name;
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">MyThread</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 线程名称。</span>
+    <span class="token keyword">private</span> String name<span class="token punctuation">;</span>
 
-    // 构造器。
-    public MyThread(String name) <span class="token punctuation">{</span>
-        this.name = name;
+    <span class="token comment" spellcheck="true">// 构造器。</span>
+    <span class="token keyword">public</span> <span class="token function">MyThread</span><span class="token punctuation">(</span>String name<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">=</span> name<span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 
-    /**
+    <span class="token comment" spellcheck="true">/**
      * 重写run方法。
-     */
-    @Override
-    public void run() <span class="token punctuation">{</span>
-        System.out.println("Thread" + this.name + " running<span class="token punctuation">...</span>");
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span><span class="token string">"Thread"</span> <span class="token operator">+</span> <span class="token keyword">this</span><span class="token punctuation">.</span>name <span class="token operator">+</span> <span class="token string">" running..."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>
 
-class ThreadTest <span class="token punctuation">{</span>
-    public static void main(String<span class="token punctuation">[</span><span class="token punctuation">]</span> args) <span class="token punctuation">{</span>
-        Thread t1 = new MyThread("A");
-        Thread t2 = new MyThread("B");
-        Thread t3 = new MyThread("C");
+<span class="token keyword">class</span> <span class="token class-name">ThreadTest</span> <span class="token punctuation">{</span>
+    <span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">void</span> <span class="token function">main</span><span class="token punctuation">(</span>String<span class="token punctuation">[</span><span class="token punctuation">]</span> args<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Thread t1 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyThread</span><span class="token punctuation">(</span><span class="token string">"A"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Thread t2 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyThread</span><span class="token punctuation">(</span><span class="token string">"B"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        Thread t3 <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">MyThread</span><span class="token punctuation">(</span><span class="token string">"C"</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        // 设置优先级。
-        t1.setPriority(Thread.MIN_PRIORITY);
-        t2.setPriority(Thread.NORM_PRIORITY);
-        t3.setPriority(Thread.MAX_PRIORITY);
+        <span class="token comment" spellcheck="true">// 设置优先级。</span>
+        t1<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span>MIN_PRIORITY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t2<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span>NORM_PRIORITY<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t3<span class="token punctuation">.</span><span class="token function">setPriority</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span>MAX_PRIORITY<span class="token punctuation">)</span><span class="token punctuation">;</span>
 
-        t1.start();
-        t2.start();
-        t3.start();
+        t1<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t2<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        t3<span class="token punctuation">.</span><span class="token function">start</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
 <span class="token punctuation">}</span></code></pre>
 
