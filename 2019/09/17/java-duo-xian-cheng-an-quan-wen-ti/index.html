@@ -441,17 +441,17 @@ volatile 关">
                 <blockquote>
 <p>多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。</p>
 </blockquote>
-<h4 id="volatile-关键字"><a href="#volatile-关键字" class="headerlink" title="volatile 关键字"></a>volatile 关键字</h4><blockquote>
+<h3 id="volatile-关键字"><a href="#volatile-关键字" class="headerlink" title="volatile 关键字"></a>volatile 关键字</h3><blockquote>
 <p><code>volatile</code> 关键字的作用是强制从公共堆栈中取得变量的值，而不是从线程私有数据栈中取得变量的值。使用 <code>volatile</code> 关键字增加了实例变量在多个线程间的可见性。但它有个缺点就是不支持原子性。</p>
 </blockquote>
 <p><em>为什么volatile无法保证 i++ 原子性</em></p>
 <blockquote>
 <p>上面提到多线程安全问题原因，操作共享数据的语句不止一条时，那么在多条操作共享数据的之间线程就可能发生切换，这样就会存在安全问题。对于 <code>i++</code> ，可以看做 <code>i = i + 1</code>，那么 <code>i++</code> 实际就是先从内存中读取变量 <code>i</code>，计算 <code>i</code> 的值，再将 <code>i</code> 的值写入内存中。 </p>
 </blockquote>
-<h4 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h4><blockquote>
+<h3 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h3><blockquote>
 <p><code>synchronized</code> 是为了解决共享资源竞争问题，它的作用是让线程获取对象的同步锁。</p>
 </blockquote>
-<h5 id="同步代码块（synchronized）"><a href="#同步代码块（synchronized）" class="headerlink" title="同步代码块（synchronized）"></a>同步代码块（synchronized）</h5><blockquote>
+<h4 id="同步代码块（synchronized）"><a href="#同步代码块（synchronized）" class="headerlink" title="同步代码块（synchronized）"></a>同步代码块（synchronized）</h4><blockquote>
 <p>同步代码块是一种细粒度锁，线程开始执行同步代码块之前，必须先获得对同步监视器的锁定，任何时候只能有一个线程可以获得对同步监视器的锁定，当同步代码块执行完成后，该线程会释放对同步监视器的锁定。<code>锁对象可以是任意的对象</code>。</p>
 </blockquote>
 <pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 锁对象。</span>
@@ -461,7 +461,7 @@ Object lock <span class="token operator">=</span> <span class="token keyword">ne
     <span class="token comment" spellcheck="true">//TODO</span>
     可能会产生线程安全问题的代码
 <span class="token punctuation">}</span></code></pre>
-<h5 id="同步方法-（synchronized）"><a href="#同步方法-（synchronized）" class="headerlink" title="同步方法 （synchronized）"></a>同步方法 （synchronized）</h5><blockquote>
+<h4 id="同步方法-（synchronized）"><a href="#同步方法-（synchronized）" class="headerlink" title="同步方法 （synchronized）"></a>同步方法 （synchronized）</h4><blockquote>
 <p>同步方法是一种粗粒度锁，无需显式指定同步监视器，同步方法的同步监视器是 <code>this</code>，也就是调用该方法的对象。<code>锁对象是 this</code>。</p>
 </blockquote>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">method</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
@@ -475,7 +475,7 @@ Object lock <span class="token operator">=</span> <span class="token keyword">ne
     可能会产生线程安全问题的代码
 <span class="token punctuation">}</span></code></pre>
 </blockquote>
-<h5 id="synchronized基本原则"><a href="#synchronized基本原则" class="headerlink" title="synchronized基本原则"></a>synchronized基本原则</h5><p>当一个线程访问某对象的 <code>synchronized</code> 方法或者 <code>synchronized</code> 代码块时：</p>
+<h4 id="synchronized基本原则"><a href="#synchronized基本原则" class="headerlink" title="synchronized基本原则"></a>synchronized基本原则</h4><p>当一个线程访问某对象的 <code>synchronized</code> 方法或者 <code>synchronized</code> 代码块时：</p>
 <ol>
 <li><p>其他线程对该对象的该 <code>synchronized</code> 方法或者 <code>synchronized</code> 代码块的访问将被阻塞。 </p>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">MyThread</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
@@ -599,7 +599,7 @@ Thread-1 -<span class="token operator">></span> 4</code></pre>
 <li><code>volatile</code> 能保证数据的可见性，但不能保证原子性；<code>synchronized</code> 既可以保证原子性，也可以保证可见性。</li>
 <li><code>volatile</code> 解决的是变量在多个线程之间的可见性，而 <code>synchronized</code> 解决的是多个线程之间访问资源的同步性。</li>
 </ul>
-<h4 id="同步锁-Lock"><a href="#同步锁-Lock" class="headerlink" title="同步锁 Lock"></a>同步锁 Lock</h4><blockquote>
+<h3 id="同步锁-Lock"><a href="#同步锁-Lock" class="headerlink" title="同步锁 Lock"></a>同步锁 Lock</h3><blockquote>
 <p>使用同步锁 <code>Lock</code> 一定要解锁，将解锁放在 <code>finall</code> 中，即使程序出现异常也会解锁，也不会造成一直占用锁资源。</p>
 </blockquote>
 <pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">MyThread</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
