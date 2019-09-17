@@ -4,12 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="数据库事务机制及原理, 秦舒话">
-    <meta name="description" content="前言
-以下介绍是基于 MySql 数据库，InnoDB 存储引擎。
+    <meta name="keywords" content="Java多线程安全问题, 秦舒话">
+    <meta name="description" content="
+多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。
 
-什么是事务
-事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部失败。简言之，数据库事务就是将一组 sql 语句组装起来，要么它们一起成功执行，否则全部">
+volatile 关">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>数据库事务机制及原理 | 秦舒话</title>
+    <title>Java多线程安全问题 | 秦舒话</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -264,13 +263,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/18.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        数据库事务机制及原理
+                        Java多线程安全问题
                     </div>
                 </div>
             </div>
@@ -381,8 +380,12 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/事务/" target="_blank">
-                                <span class="chip bg-color">事务</span>
+                            <a href="/tags/多线程/" target="_blank">
+                                <span class="chip bg-color">多线程</span>
+                            </a>
+                        
+                            <a href="/tags/同步锁/" target="_blank">
+                                <span class="chip bg-color">同步锁</span>
                             </a>
                         
                     </div>
@@ -393,8 +396,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/数据库/" class="post-category" target="_blank">
-                                数据库
+                            <a href="/categories/多线程/" class="post-category" target="_blank">
+                                多线程
                             </a>
                         
                     </div>
@@ -405,14 +408,14 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-27
+                    2019-09-17
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.6k
+                        1.4k
                     </div>
                     
 
@@ -435,175 +438,192 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
-<p>以下介绍是基于 <code>MySql</code> 数据库，<code>InnoDB</code> 存储引擎。</p>
+                <blockquote>
+<p>多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。</p>
 </blockquote>
-<h3 id="什么是事务"><a href="#什么是事务" class="headerlink" title="什么是事务"></a>什么是事务</h3><blockquote>
-<p>事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部失败。简言之，数据库事务就是将一组 <code>sql</code> 语句组装起来，要么它们一起成功执行，否则全部失败回滚。</p>
+<h4 id="volatile-关键字"><a href="#volatile-关键字" class="headerlink" title="volatile 关键字"></a>volatile 关键字</h4><blockquote>
+<p><code>volatile</code> 关键字的作用是强制从公共堆栈中取得变量的值，而不是从线程私有数据栈中取得变量的值。使用 <code>volatile</code> 关键字增加了实例变量在多个线程间的可见性。但它有个缺点就是不支持原子性。</p>
 </blockquote>
-<h3 id="事务命令"><a href="#事务命令" class="headerlink" title="事务命令"></a>事务命令</h3><pre class=" language-sql"><code class="language-sql"><span class="token keyword">start</span> <span class="token keyword">transaction</span>        <span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">commit</span>                   <span class="token comment" spellcheck="true"># 提交事务</span>
-<span class="token keyword">rollback</span>                 <span class="token comment" spellcheck="true"># 事务回滚</span></code></pre>
-<h3 id="事务四大特性"><a href="#事务四大特性" class="headerlink" title="事务四大特性"></a>事务四大特性</h3><ul>
-<li><strong>原子性</strong>：事务是一个不可分割的工作单位，要么一起成功，要么全部失败。</li>
-<li><strong>一致性</strong>：事务必须使数据库从一个一致性状态变换到另外一个一致性状态。</li>
-<li><strong>隔离性</strong>：多个用户并发访问数据库时，数据库为每一个用户开启的事务，不能被其他事务的操作数据所干扰，多个并发事务之间要相互隔离。</li>
-<li><strong>持久性</strong>：事务一旦被提交，它对数据库中数据的改变就是永久性的。</li>
-</ul>
-<h3 id="事务隔离级别"><a href="#事务隔离级别" class="headerlink" title="事务隔离级别"></a>事务隔离级别</h3><blockquote>
-<p>多个事务操作数据库中数据时，数据库系统要负责隔离操作，以保证各个事务在获取数据时的准确性。</p>
-</blockquote>
-<h4 id="隔离级别分类"><a href="#隔离级别分类" class="headerlink" title="隔离级别分类"></a>隔离级别分类</h4><ul>
-<li><p>Read Uncommitted（读未提交）</p>
+<p><em>为什么volatile无法保证 i++ 原子性</em></p>
 <blockquote>
-<p>允许所有事务可以看到未提交事务的数据，从而会产生脏读，不可重复读和幻像读。这种事务隔离级别最低。</p>
+<p>上面提到多线程安全问题原因，操作共享数据的语句不止一条时，那么在多条操作共享数据的之间线程就可能发生切换，这样就会存在安全问题。对于 <code>i++</code> ，可以看做 <code>i = i + 1</code>，那么 <code>i++</code> 实际就是先从内存中读取变量 <code>i</code>，计算 <code>i</code> 的值，再将 <code>i</code> 的值写入内存中。 </p>
 </blockquote>
-</li>
-<li><p>Read Committed（读已提交，不可重复读）</p>
+<h4 id="synchronized-关键字"><a href="#synchronized-关键字" class="headerlink" title="synchronized 关键字"></a>synchronized 关键字</h4><blockquote>
+<p><code>synchronized</code> 是为了解决共享资源竞争问题，它的作用是让线程获取对象的同步锁。</p>
+</blockquote>
+<h5 id="同步代码块（synchronized）"><a href="#同步代码块（synchronized）" class="headerlink" title="同步代码块（synchronized）"></a>同步代码块（synchronized）</h5><blockquote>
+<p>同步代码块是一种细粒度锁，线程开始执行同步代码块之前，必须先获得对同步监视器的锁定，任何时候只能有一个线程可以获得对同步监视器的锁定，当同步代码块执行完成后，该线程会释放对同步监视器的锁定。<code>锁对象可以是任意的对象</code>。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 锁对象。</span>
+Object lock <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">synchronized</span> <span class="token punctuation">(</span>lock<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//TODO</span>
+    可能会产生线程安全问题的代码
+<span class="token punctuation">}</span></code></pre>
+<h5 id="同步方法-（synchronized）"><a href="#同步方法-（synchronized）" class="headerlink" title="同步方法 （synchronized）"></a>同步方法 （synchronized）</h5><blockquote>
+<p>同步方法是一种粗粒度锁，无需显式指定同步监视器，同步方法的同步监视器是 <code>this</code>，也就是调用该方法的对象。<code>锁对象是 this</code>。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">method</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//TODO</span>
+    可能会产生线程安全问题的代码
+<span class="token punctuation">}</span></code></pre>
 <blockquote>
-<p>一个事务不可以读取未提交事务的数据，同样的，一个事务在提交数据后才能被其他事务读取。由于在读取时没有加锁，所以在两次读取过程，如果有事务修改了数据，那么两次的读取内容是不一致的。这也就是不可重复读的原因。</p>
+<p>静态同步方法锁对象是本类名<code>.class</code>。</p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">public</span> <span class="token keyword">static</span> <span class="token keyword">synchronized</span> <span class="token keyword">void</span> <span class="token function">method</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//TODO</span>
+    可能会产生线程安全问题的代码
+<span class="token punctuation">}</span></code></pre>
 </blockquote>
-</li>
-<li><p>Repeatable Read（可重复读）</p>
-<blockquote>
-<p>一个事务中多次执行统一读 <code>sql</code>，返回结果一样，解决不可重复读问题。<code>MySql</code> 默认事务隔离级别</p>
-</blockquote>
-</li>
-<li><p>Serializable（可串形化）</p>
-<blockquote>
-<p>使用事务串形化调度，通过强制事务排序，使之不可能相互冲突，它是在每个读的数据行上加上共享锁。可能导致大量的超时和死锁现象。</p>
-</blockquote>
-</li>
-</ul>
-<p><em>查询数据库事务隔离级别 <code>sql</code> 语句</em></p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> @<span class="token variable">@tx_isolation</span>           <span class="token comment" spellcheck="true"># 查询当前会话隔离级别</span>
-<span class="token keyword">select</span> @<span class="token variable">@global.tx_isolation</span>    <span class="token comment" spellcheck="true"># 查询系统当前隔离级别</span></code></pre>
-<p><em>设置数据库事务隔离级别 <code>sql</code> 语句</em></p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">set</span> <span class="token keyword">session</span> <span class="token keyword">transaction</span> <span class="token keyword">isolation level</span> 隔离级别名  <span class="token comment" spellcheck="true"># 设置当前会话隔离级别</span>
-<span class="token keyword">set</span> <span class="token keyword">global</span> <span class="token keyword">transaction</span> <span class="token keyword">isolation level</span> 隔离级别名   <span class="token comment" spellcheck="true"># 设置系统当前隔离级别</span></code></pre>
-<h4 id="隔离性可能的并发问题"><a href="#隔离性可能的并发问题" class="headerlink" title="隔离性可能的并发问题"></a>隔离性可能的并发问题</h4><p><em>事务不考虑隔离性，可能引发的问题。</em></p>
+<h5 id="synchronized基本原则"><a href="#synchronized基本原则" class="headerlink" title="synchronized基本原则"></a>synchronized基本原则</h5><p>当一个线程访问某对象的 <code>synchronized</code> 方法或者 <code>synchronized</code> 代码块时：</p>
 <ol>
-<li>脏读：一个事务读取了另一个事务未提交的数据。</li>
-<li>不可重复读：一个事务内读取表中某行数据，多次读取结果不一致。<blockquote>
-<p>不可重复读和脏读的区别：脏读是读取前一事务未提交的脏数据，不可重复读是读取前一事务已提交的数据。</p>
-</blockquote>
+<li><p>其他线程对该对象的该 <code>synchronized</code> 方法或者 <code>synchronized</code> 代码块的访问将被阻塞。 </p>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">MyThread</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
+ <span class="token comment" spellcheck="true">// 锁对象。</span>
+ Object lock <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+ <span class="token comment" spellcheck="true">/**
+  * 重写run方法。
+  */</span>
+ <span class="token annotation punctuation">@Override</span>
+ <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token keyword">synchronized</span> <span class="token punctuation">(</span>lock<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+         <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> i <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span> i <span class="token operator">&lt;</span> <span class="token number">5</span><span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+             System<span class="token punctuation">.</span>out<span class="token punctuation">.</span><span class="token function">println</span><span class="token punctuation">(</span>Thread<span class="token punctuation">.</span><span class="token function">currentThread</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">getName</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span> <span class="token string">" -> "</span> <span class="token operator">+</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+         <span class="token punctuation">}</span>
+     <span class="token punctuation">}</span>
+ <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+</code></pre>
 </li>
-<li>幻读：一个事务内读取到了别的事务插入的数据，导致前后读取不一致。<blockquote>
-<p>幻读和脏读的区别：脏读是读取事务修改的数据，脏读是读取事务新增的数据。</p>
-</blockquote>
+</ol>
+<p>public static void main(String[] args) {<br>    Thread t1 = new MyThread();<br>    Thread t2 = new MyThread();<br>    t1.start();<br>    t2.start();<br>}</p>
+<pre><code>
+运行结果：
+```bash
+Thread-0 -&gt; 0
+Thread-0 -&gt; 1
+Thread-0 -&gt; 2
+Thread-0 -&gt; 3
+Thread-0 -&gt; 4
+Thread-1 -&gt; 0
+Thread-1 -&gt; 1
+Thread-1 -&gt; 2
+Thread-1 -&gt; 3
+Thread-1 -&gt; 4</code></pre><ol start="2">
+<li>其他线程仍然可以访问该对象的非同步代码块。 <pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 锁对象。</span>
+<span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">static</span> Object LOCK <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
 </li>
 </ol>
-<table>
-<thead>
-<tr>
-<th align="left">事务隔离级别</th>
-<th align="center">脏读</th>
-<th align="center">不可重复读</th>
-<th align="center">幻读</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left">Read Uncommitted</td>
-<td align="center">可能出现</td>
-<td align="center">可能出现</td>
-<td align="center">可能出现</td>
-</tr>
-<tr>
-<td align="left">Read Committed</td>
-<td align="center">不会出现</td>
-<td align="center">可能出现</td>
-<td align="center">可能出现</td>
-</tr>
-<tr>
-<td align="left">Repeatable Read</td>
-<td align="center">不会出现</td>
-<td align="center">不会出现</td>
-<td align="center">可能出现</td>
-</tr>
-<tr>
-<td align="left">Read Uncommitted</td>
-<td align="center">不会出现</td>
-<td align="center">不会出现</td>
-<td align="center">不会出现</td>
-</tr>
-</tbody></table>
-<h3 id="隔离级别演示"><a href="#隔离级别演示" class="headerlink" title="隔离级别演示"></a>隔离级别演示</h3><ol>
-<li>将数据库事务隔离级别设置成 <code>Read UnCommitted</code> </li>
-</ol>
-<p>事务A：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 查询账户信息，然后执行事务B     </span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> 
-<span class="token comment" spellcheck="true"># 查询账户信息，发现余额多了100，说明读取到了事务B未提交的数据</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> </code></pre>
-<p>事务B：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 执行后不要提交，执行事务A操作</span>
-<span class="token keyword">update</span> account <span class="token keyword">set</span> money <span class="token operator">=</span> money <span class="token operator">+</span> <span class="token number">100</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
-<ol start="2">
-<li>将数据库事务隔离级别设置成 <code>Read Committed</code></li>
-</ol>
-<p>事务A：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 查询账户信息，然后执行事务B</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 查询账户信息，发现余额多了100，说明读取到了事务B已提交的数据</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span></code></pre>
-<p>事务B：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 更新账号余额 </span>
-<span class="token keyword">update</span> account <span class="token keyword">set</span> money <span class="token operator">=</span> money <span class="token operator">+</span> <span class="token number">100</span> <span class="token keyword">where</span> id <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> 
-<span class="token comment" spellcheck="true"># 提交事务后，执行事务A操作</span>
-<span class="token keyword">commit</span><span class="token punctuation">;</span>   </code></pre>
-<blockquote>
-<p>这里你可以先不提交执行事务A操作，看是否会查询到事务B未提交的数据，答案是不可以的。大部分数据库隔离级别都是设置为 <code>Read Committed</code>。</p>
-</blockquote>
-<ol start="3">
-<li>将数据库事务隔离级别设置成 <code>Repeatable Read</code></li>
-</ol>
-<p>事务A：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 查询账户信息，然后执行事务B</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account<span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 查询账户信息，发现多了1条数据，说明读取到了事务B新增的数据。</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account<span class="token punctuation">;</span> </code></pre>
-<p>事务B：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>  
-<span class="token comment" spellcheck="true"># 执行后不要提交，执行事务B操作</span>
-<span class="token keyword">insert</span> account<span class="token punctuation">(</span><span class="token punctuation">`</span>name<span class="token punctuation">`</span><span class="token punctuation">,</span> money<span class="token punctuation">)</span> <span class="token keyword">VALUE</span><span class="token punctuation">(</span><span class="token string">"小明"</span><span class="token punctuation">,</span> <span class="token number">1100.00</span><span class="token punctuation">)</span><span class="token punctuation">;</span> 
-<span class="token keyword">COMMIT</span><span class="token punctuation">;</span></code></pre>
-<blockquote>
-<p>以上实验是建立在数据库未引用 <code>MVVC</code>（一种基于多版本的并发控制协议）基础下的。在 <code>MVVC</code> 机制下，每行数据都有版本号，在查询时至少要找到不大于事务版本号的数据，即使提交了事务B，但是事务A依旧查不到新增加的数据，因为它的版本号比事务A的要大。</p>
+<p>public static void main(String[] args) {<br>    Thread t1 = new MyThread();<br>    Thread t2 = new MyThread();<br>    t1.start();<br>    t2.start();<br>}</p>
+<p>class Thread1 extends Thread {<br>    /**<br>     * 重写run方法。<br>     */<br>    @Override<br>    public void run() {<br>        try{<br>            syncMethod();<br>        } catch (Exception ex) {<br>            ex.printStackTrace();<br>        }<br>    }<br>}</p>
+<p>class Thread2 extends Thread {<br>    /**<br>     * 重写run方法。<br>     */<br>    @Override<br>    public void run() {<br>        try{<br>            unSyncMethod();<br>        } catch (Exception ex) {<br>            ex.printStackTrace();<br>        }<br>    }<br>}</p>
+<p>/**</p>
 <ul>
-<li><code>MVVC</code> 只能在 <code>Read Committed</code> 和 <code>Repeatable Read</code> 隔离级别下工作。</li>
-<li>在 <code>READ UNCOMMITED</code> 隔离级别下找不到适合它们事务的行版本，所以不兼容。</li>
-<li>在 <code>Serializable</code> 隔离级别下读操作会锁定它们返回的数据，所以也不兼容。</li>
+<li>同步方法。</li>
+<li></li>
+<li>@throws Exception 抛出异常</li>
+<li>/<br>public static void syncMethod() throws Exception {<br>  synchronized (LOCK) {<pre><code>  for (int i = 0; i &lt; 5; i++) {
+      // 休眠100ms。
+      Thread.sleep(100);
+      System.out.println(Thread.currentThread().getName() + &quot; -&gt; &quot; + i);
+  }</code></pre>  }<br>}</li>
 </ul>
-</blockquote>
-<ol start="4">
-<li>将数据库事务隔离级别设置成 <code>Serializable</code></li>
+<p>/**</p>
+<ul>
+<li>非同步方法。</li>
+<li></li>
+<li>@throws Exception 抛出异常</li>
+<li>/<br>public static void unSyncMethod() throws Exception {<br>  for (int i = 0; i &lt; 5; i++) {<pre><code>  // 休眠100ms。
+  Thread.sleep(100);
+  System.out.println(Thread.currentThread().getName() + &quot; -&gt; &quot; + i);</code></pre>  }<br>}<pre><code></code></pre></li>
+</ul>
+<p>运行结果：</p>
+<pre class=" language-bash"><code class="language-bash">Thread-1 -<span class="token operator">></span> 0
+Thread-0 -<span class="token operator">></span> 0
+Thread-1 -<span class="token operator">></span> 1
+Thread-0 -<span class="token operator">></span> 1
+Thread-0 -<span class="token operator">></span> 2
+Thread-1 -<span class="token operator">></span> 2
+Thread-0 -<span class="token operator">></span> 3
+Thread-1 -<span class="token operator">></span> 3
+Thread-0 -<span class="token operator">></span> 4
+Thread-1 -<span class="token operator">></span> 4</code></pre>
+<ol start="3">
+<li>其他线程对该对象的其他的<code>synchronized</code> 方法或者 <code>synchronized</code> 代码块的访问将被阻塞。<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 锁对象。</span>
+<span class="token keyword">private</span> <span class="token keyword">final</span> <span class="token keyword">static</span> Object LOCK <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">Object</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre>
+</li>
 </ol>
-<p>事务A：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 查询账户信息，然后执行事务B</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> account<span class="token punctuation">;</span> 
-<span class="token comment" spellcheck="true"># 提交事务后，发现事务B执行成功</span>
-<span class="token keyword">commit</span><span class="token punctuation">;</span>                </code></pre>
-<p>事务B：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 开启事务</span>
-<span class="token keyword">start</span> <span class="token keyword">transaction</span><span class="token punctuation">;</span>
-<span class="token comment" spellcheck="true"># 无法插入数据，一直在等待事务B提交</span>
-<span class="token keyword">insert</span> account<span class="token punctuation">(</span><span class="token punctuation">`</span>name<span class="token punctuation">`</span><span class="token punctuation">,</span> money<span class="token punctuation">)</span> <span class="token keyword">VALUE</span><span class="token punctuation">(</span><span class="token string">"小明"</span><span class="token punctuation">,</span> <span class="token number">1100.00</span><span class="token punctuation">)</span><span class="token punctuation">;</span> </code></pre>
-<blockquote>
-<p>虽然 <code>Serializable</code> 是最强的隔离级别，通过给事务中每次读取的行加锁，写加写锁，保证不产生幻读问题，但是也同样会导致大量超时以及争锁的问题。</p>
+<p>public static void main(String[] args) {<br>    Thread t1 = new MyThread();<br>    Thread t2 = new MyThread();<br>    t1.start();<br>    t2.start();<br>}</p>
+<p>class Thread1 extends Thread {<br>    /**<br>     * 重写run方法。<br>     */<br>    @Override<br>    public void run() {<br>        try{<br>            syncMethod();<br>        } catch (Exception ex) {<br>            ex.printStackTrace();<br>        }<br>    }<br>}</p>
+<p>class Thread2 extends Thread {<br>    /**<br>     * 重写run方法。<br>     */<br>    @Override<br>    public void run() {<br>        try{<br>            syncMethod2();<br>        } catch (Exception ex) {<br>            ex.printStackTrace();<br>        }<br>    }<br>}</p>
+<p>/**</p>
+<ul>
+<li>同步方法。</li>
+<li></li>
+<li>@throws Exception 抛出异常</li>
+<li>/<br>public static void syncMethod() throws Exception {<br>  synchronized (LOCK) {<pre><code>  for (int i = 0; i &lt; 5; i++) {
+      // 休眠100ms。
+      Thread.sleep(100);
+      System.out.println(Thread.currentThread().getName() + &quot; -&gt; &quot; + i);
+  }</code></pre>  }<br>}</li>
+</ul>
+<p>/**</p>
+<ul>
+<li>同步方法2。</li>
+<li></li>
+<li>@throws Exception 抛出异常</li>
+<li>/<br>public static void syncMethod2() throws Exception {<br>  synchronized (LOCK) {<pre><code>  for (int i = 0; i &lt; 5; i++) {
+      // 休眠100ms。
+      Thread.sleep(100);
+      System.out.println(Thread.currentThread().getName() + &quot; -&gt; &quot; + i);
+  }</code></pre>  }<br>}<pre><code></code></pre></li>
+</ul>
+<p>运行结果：</p>
+<pre class=" language-bash"><code class="language-bash">Thread-0 -<span class="token operator">></span> 0
+Thread-0 -<span class="token operator">></span> 1
+Thread-0 -<span class="token operator">></span> 2
+Thread-0 -<span class="token operator">></span> 3
+Thread-0 -<span class="token operator">></span> 4
+Thread-1 -<span class="token operator">></span> 0
+Thread-1 -<span class="token operator">></span> 1
+Thread-1 -<span class="token operator">></span> 2
+Thread-1 -<span class="token operator">></span> 3
+Thread-1 -<span class="token operator">></span> 4</code></pre>
+<p><em>volatile与synchronize区别</em></p>
+<ul>
+<li>多线程访问时，<code>volatile</code> 不会发生阻塞，但是 <code>synchronize</code> 会发生阻塞。</li>
+<li><code>volatile</code> 属于轻量级实现，因此 <code>volatile</code> 性能比 <code>synchronize</code> 性能好。<code>synchronize</code>可以修饰方法和代码块，而 <code>volatile</code> 只能修饰变量。</li>
+<li><code>volatile</code> 能保证数据的可见性，但不能保证原子性；<code>synchronized</code> 既可以保证原子性，也可以保证可见性。</li>
+<li><code>volatile</code> 解决的是变量在多个线程之间的可见性，而 <code>synchronized</code> 解决的是多个线程之间访问资源的同步性。</li>
+</ul>
+<h4 id="同步锁-Lock"><a href="#同步锁-Lock" class="headerlink" title="同步锁 Lock"></a>同步锁 Lock</h4><blockquote>
+<p>使用同步锁 <code>Lock</code> 一定要解锁，将解锁放在 <code>finall</code> 中，即使程序出现异常也会解锁，也不会造成一直占用锁资源。</p>
 </blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">MyThread</span> <span class="token keyword">extends</span> <span class="token class-name">Thread</span> <span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">// 创建Lock锁对象。</span>
+    <span class="token keyword">private</span> Lock lock <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ReentrantLock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+    <span class="token comment" spellcheck="true">/**
+     * 重写run方法。
+     */</span>
+    <span class="token annotation punctuation">@Override</span>
+    <span class="token keyword">public</span> <span class="token keyword">void</span> <span class="token function">run</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token comment" spellcheck="true">// 上锁。</span>
+            lock<span class="token punctuation">.</span><span class="token function">lock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">try</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">//TODO</span>
+                可能会产生线程安全问题的代码
+            <span class="token punctuation">}</span> <span class="token keyword">finally</span> <span class="token punctuation">{</span>
+                <span class="token comment" spellcheck="true">// 解锁。</span>
+                lock<span class="token punctuation">.</span><span class="token function">unlock</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></code></pre>
 
             </div>
             <hr/>
@@ -638,9 +658,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《数据库事务机制及原理》
+                    《Java多线程安全问题》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/27/shu-ju-ku-shi-wu-ji-zhi-ji-yuan-li/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/" property="cc:attributionName"
                rel="cc:attributionURL">
                 秦舒话
             </a> 采用
@@ -681,7 +701,7 @@
         repo: 'tongtong-ge.github.io',
         owner: 'tongtong-ge',
         admin: "tongtong-ge",
-        id: '2019-08-27T19-42-23',
+        id: '2019-09-17T19-41-48',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -702,9 +722,64 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
+            <div class="card">
+                <a href="/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Java多线程安全问题">
+                        
+                        <span class="card-title">Java多线程安全问题</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-17
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/多线程/" class="post-category" target="_blank">
+                                    多线程
+                                </a>
+                            
+                            
+                        </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/多线程/" target="_blank">
+                        <span class="chip bg-color">多线程</span>
+                    </a>
+                    
+                    <a href="/tags/同步锁/" target="_blank">
+                        <span class="chip bg-color">同步锁</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
             <div class="card">
                 <a href="/2019/09/02/java-duo-xian-cheng-ji-zhi/">
                     <div class="card-image">
@@ -722,9 +797,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-02
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-02
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -750,55 +825,6 @@
                     
                     <a href="/tags/内存模型/" target="_blank">
                         <span class="chip bg-color">内存模型</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/08/19/hashmap-shi-xian-yuan-li/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="HashMap实现原理">
-                        
-                        <span class="card-title">HashMap实现原理</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允许使用 null 键和 null 值，因为 key 不允许重复，因此只能有一个键为 null， HashMap 不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。HashMap 是线程不安全的。
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-19
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/后端基础/" class="post-category" target="_blank">
-                                    后端基础
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/HashMap/" target="_blank">
-                        <span class="chip bg-color">HashMap</span>
                     </a>
                     
                 </div>
