@@ -20,9 +20,11 @@
       
         <tags>
             
-            <tag> 多线程 </tag>
+            <tag> volatile </tag>
             
-            <tag> 同步锁 </tag>
+            <tag> synchronized </tag>
+            
+            <tag> lock </tag>
             
         </tags>
       
@@ -47,9 +49,9 @@
       
         <tags>
             
-            <tag> 多线程 </tag>
-            
             <tag> 进程 </tag>
+            
+            <tag> 线程 </tag>
             
             <tag> 内存模型 </tag>
             

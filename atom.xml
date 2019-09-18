@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tongtong-ge.github.io/"/>
-  <updated>2019-09-17T11:53:24.693Z</updated>
+  <updated>2019-09-18T01:03:30.563Z</updated>
   <id>https://tongtong-ge.github.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://tongtong-ge.github.io/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/"/>
     <id>https://tongtong-ge.github.io/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/</id>
     <published>2019-09-17T11:41:48.177Z</published>
-    <updated>2019-09-17T11:53:24.693Z</updated>
+    <updated>2019-09-18T01:03:30.563Z</updated>
     
     <summary type="html">
     
@@ -40,9 +40,11 @@
       <category term="多线程" scheme="https://tongtong-ge.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     
     
-      <category term="多线程" scheme="https://tongtong-ge.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
+      <category term="volatile" scheme="https://tongtong-ge.github.io/tags/volatile/"/>
     
-      <category term="同步锁" scheme="https://tongtong-ge.github.io/tags/%E5%90%8C%E6%AD%A5%E9%94%81/"/>
+      <category term="synchronized" scheme="https://tongtong-ge.github.io/tags/synchronized/"/>
+    
+      <category term="lock" scheme="https://tongtong-ge.github.io/tags/lock/"/>
     
   </entry>
   
@@ -51,7 +53,7 @@
     <link href="https://tongtong-ge.github.io/2019/09/02/java-duo-xian-cheng-ji-zhi/"/>
     <id>https://tongtong-ge.github.io/2019/09/02/java-duo-xian-cheng-ji-zhi/</id>
     <published>2019-09-02T13:07:55.626Z</published>
-    <updated>2019-09-17T12:21:42.645Z</updated>
+    <updated>2019-09-18T01:03:44.400Z</updated>
     
     <summary type="html">
     
@@ -68,9 +70,9 @@
       <category term="多线程" scheme="https://tongtong-ge.github.io/categories/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
     
     
-      <category term="多线程" scheme="https://tongtong-ge.github.io/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/"/>
-    
       <category term="进程" scheme="https://tongtong-ge.github.io/tags/%E8%BF%9B%E7%A8%8B/"/>
+    
+      <category term="线程" scheme="https://tongtong-ge.github.io/tags/%E7%BA%BF%E7%A8%8B/"/>
     
       <category term="内存模型" scheme="https://tongtong-ge.github.io/tags/%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/"/>
     
