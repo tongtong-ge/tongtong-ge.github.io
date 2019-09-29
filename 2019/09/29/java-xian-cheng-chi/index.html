@@ -413,7 +413,7 @@
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        965
+                        989
                     </div>
                     
 
@@ -472,7 +472,7 @@
 <li><code>CachedThreadPool</code> 和 <code>ScheduledThreadPool</code>：<br> 允许的创建线程数量为<code>Integer.MAX_VALUE</code>，可能会堆积大量的请求，从而导致OOM。</li>
 </ol>
 <h4 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h4><blockquote>
-<p> 线程池，可以将它理解为线程集合。线程池允许若个线程同时运行，运行同时运行的线程数量就是线程池的容量。线程池会通过相应的调度策略和拒绝策略，对添加到线程池中的线程进行管理。</p>
+<p>构造一个线程池7个参数，这些参数中，<code>corePoolSize</code>和<code>keepAliveTime</code>需要大于等于0，<code>maximumPoolSize</code>大于0且大于<code>corePoolSize</code>，否则会抛出<code>IllegalArgumentException</code>异常。<code>workQueue</code>，<code>threadFactory</code>和<code>handler</code>不能为null，否则会抛出空指针异常。<br><code>corePoolSize</code>和<code>maximumPoolSize</code>设置不当会影响效率，甚至耗尽线程。<br><code>workQueue</code>设置不当容易导致<code>OOM</code>。<br><code>handler</code>设置不当会导致提交任务时抛出异常。</p>
 </blockquote>
 <pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
  * ThreadPoolExecutor的构造器。
@@ -494,9 +494,11 @@
                           BlockingQueue<span class="token operator">&lt;</span>Runnable<span class="token operator">></span> workQueue<span class="token punctuation">,</span>
                           ThreadFactory threadFactory<span class="token punctuation">,</span>
                           RejectedExecutionHandler handler<span class="token punctuation">)</span></code></pre>
-<blockquote>
-<p>构造一个线程池7个参数，这些参数中，<code>corePoolSize</code>和<code>keepAliveTime</code>需要大于等于0，<code>maximumPoolSize</code>大于0且大于<code>corePoolSize</code>，否则会抛出<code>IllegalArgumentException</code>异常。<code>workQueue</code>，<code>threadFactory</code>和<code>handler</code>不能为null，否则会抛出空指针异常。<br><code>corePoolSize</code>和<code>maximumPoolSize</code>设置不当会影响效率，甚至耗尽线程。<br><code>workQueue</code>设置不当容易导致<code>OOM</code>。<br><code>handler</code>设置不当会导致提交任务时抛出异常。</p>
-</blockquote>
+<h4 id="工作顺序"><a href="#工作顺序" class="headerlink" title="工作顺序"></a>工作顺序</h4><ol>
+<li>如果运行的线程少于<code>corePoolSize</code>，则执行器总是倾向于添加新线程，而不是排队。</li>
+<li>如果<code>corePoolSize</code>或更多线程正在运行，则执行器总是倾向于将请求排队，而不是添加新线程。</li>
+<li>如果请求不能排队，则创建一个新线程，除非该线程超过<code>maximumPoolSize</code>，在这种情况下，任务将被拒绝。</li>
+</ol>
 <h4 id="拒绝策略"><a href="#拒绝策略" class="headerlink" title="拒绝策略"></a>拒绝策略</h4><blockquote>
 <p>任务队列总有占满的时候，这时候再提交新的任务时，需要有一个处理策略，<code>RejectedExecutionHandler</code>接口为我们提供了控制方式。4种常见的拒绝策略。</p>
 </blockquote>
