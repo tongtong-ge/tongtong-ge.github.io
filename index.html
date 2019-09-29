@@ -377,6 +377,28 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
     
     
     <div class="carousel-item amber white-text carousel-post bg-cover"
+            style="background-image: url('/images/01.jpg');">
+        <div class="container">
+            <div class="row">
+                <div class="col s10 offset-s1">
+                    <div class="title center-align">Java多线程安全问题</div>
+                    <div class="description center-align">
+                    
+                        多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。
+                    
+                    </div>
+                    <div class="cover-btns">
+                        <a href="/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/" class="waves-effect waves-light btn" target="_blank">
+                            <i class="icon fa fa-eye fa-fw"></i>阅读更多
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="carousel-item amber white-text carousel-post bg-cover"
             style="background-image: url('/images/1.jpg');">
         <div class="container">
             <div class="row">
@@ -399,18 +421,18 @@ $('.bg-cover').css('background-image', 'url(/medias/banner/' + new Date().getDay
     
     
     <div class="carousel-item amber white-text carousel-post bg-cover"
-            style="background-image: url('/images/01.jpg');">
+            style="background-image: url('/images/02.jpg');">
         <div class="container">
             <div class="row">
                 <div class="col s10 offset-s1">
-                    <div class="title center-align">Java多线程安全问题</div>
+                    <div class="title center-align">Java线程池</div>
                     <div class="description center-align">
                     
-                        多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。
+                        线程是处理器调度的基本单位。我们会为每一个请求都独立创建一个线程，而操作系统创建线程、切换线程状态、结束线程都要使用CPU进行调度。使用线程池能够更好对线程进行管理、复用等。
                     
                     </div>
                     <div class="cover-btns">
-                        <a href="/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/" class="waves-effect waves-light btn" target="_blank">
+                        <a href="/2019/09/29/java-xian-cheng-chi/" class="waves-effect waves-light btn" target="_blank">
                             <i class="icon fa fa-eye fa-fw"></i>阅读更多
                         </a>
                     </div>
@@ -535,32 +557,7 @@ $(function () {
 
     
     
-    <div class="col s12 m6" >
-        <div class="post-card" style="background-image: url('/medias/featureimages/1.jpg')">
-            <div class="post-body">
-                <div class="post-categories">
-                    
-                    <a href="/categories/后端基础/" class="category" target="_blank">后端基础</a>
-                    
-                </div>
-                <a href="/2019/08/19/hashmap-shi-xian-yuan-li/" target="_blank">
-                    <h3 class="post-title">HashMap实现原理</h3>
-                </a>
-                <p class="post-description">
-                    
-                        HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允许使用 null 键和 null 值，因为 key 不允许重复，因此只能有一个键为 null， HashMap 不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。HashMap 是线程不安全的。
-                    
-                </p>
-                <a href="/2019/08/19/hashmap-shi-xian-yuan-li/" target="_blank"
-                        class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FF5E3A 0%, #FF2A68 100%)">
-                    <i class="icon fa fa-eye fa-fw"></i>阅读更多
-                </a>
-            </div>
-        </div>
-    </div>
-    
-    
-    <div class="col s12 m6" >
+    <div class="col s12" >
         <div class="post-card" style="background-image: url('/medias/featureimages/3.jpg')">
             <div class="post-body">
                 <div class="post-categories">
@@ -571,12 +568,29 @@ $(function () {
                 <a href="/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/" target="_blank">
                     <h3 class="post-title">Java多线程安全问题</h3>
                 </a>
-                <p class="post-description">
-                    
-                        多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。
-                    
-                </p>
+                <p class="post-description">多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。</p>
                 <a href="/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/" target="_blank"
+                        class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FF5E3A 0%, #FF2A68 100%)">
+                    <i class="icon fa fa-eye fa-fw"></i>阅读更多
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="col s12 m6" data-aos="zoom-in-up">
+        <div class="post-card" style="background-image: url('/medias/featureimages/1.jpg')">
+            <div class="post-body">
+                <div class="post-categories">
+                    
+                    <a href="/categories/后端基础/" class="category" target="_blank">后端基础</a>
+                    
+                </div>
+                <a href="/2019/08/19/hashmap-shi-xian-yuan-li/" target="_blank">
+                    <h3 class="post-title">HashMap实现原理</h3>
+                </a>
+                <p class="post-description">HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允许使用 null 键和 null 值，因为 key 不允许重复，因此只能有一个键为 null， HashMap 不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。HashMap 是线程不安全的。</p>
+                <a href="/2019/08/19/hashmap-shi-xian-yuan-li/" target="_blank"
                         class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #EF4DB6 0%, #C643FC 100%)">
                     <i class="icon fa fa-eye fa-fw"></i>阅读更多
                 </a>
@@ -586,6 +600,27 @@ $(function () {
     
     
     <div class="col s12 m6" data-aos="zoom-in-up">
+        <div class="post-card" style="background-image: url('/medias/featureimages/14.jpg')">
+            <div class="post-body">
+                <div class="post-categories">
+                    
+                    <a href="/categories/多线程/" class="category" target="_blank">多线程</a>
+                    
+                </div>
+                <a href="/2019/09/29/java-xian-cheng-chi/" target="_blank">
+                    <h3 class="post-title">Java线程池</h3>
+                </a>
+                <p class="post-description">线程是处理器调度的基本单位。我们会为每一个请求都独立创建一个线程，而操作系统创建线程、切换线程状态、结束线程都要使用CPU进行调度。使用线程池能够更好对线程进行管理、复用等。</p>
+                <a href="/2019/09/29/java-xian-cheng-chi/" target="_blank"
+                        class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #1AD6FD 0%, #1D62F0 100%)">
+                    <i class="icon fa fa-eye fa-fw"></i>阅读更多
+                </a>
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="col s12" data-aos="zoom-in-up">
         <div class="post-card" style="background-image: url('/medias/featureimages/8.jpg')">
             <div class="post-body">
                 <div class="post-categories">
@@ -596,13 +631,9 @@ $(function () {
                 <a href="/2019/09/02/java-duo-xian-cheng-ji-zhi/" target="_blank">
                     <h3 class="post-title">Java多线程机制</h3>
                 </a>
-                <p class="post-description">
-                    
-                        Java 给多线程编程提供了内置的支持。 一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。多线程是多任务的一种特别的形式，但多线程使用了更小的资源开销。
-                    
-                </p>
+                <p class="post-description">Java 给多线程编程提供了内置的支持。 一条线程指的是进程中一个单一顺序的控制流，一个进程中可以并发多个线程，每条线程并行执行不同的任务。多线程是多任务的一种特别的形式，但多线程使用了更小的资源开销。</p>
                 <a href="/2019/09/02/java-duo-xian-cheng-ji-zhi/" target="_blank"
-                        class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #1AD6FD 0%, #1D62F0 100%)">
+                        class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FFCC00 0%, #FF9500 100%)">
                     <i class="icon fa fa-eye fa-fw"></i>阅读更多
                 </a>
             </div>
@@ -621,13 +652,9 @@ $(function () {
                 <a href="/2019/08/27/shu-ju-ku-shi-wu-ji-zhi-ji-yuan-li/" target="_blank">
                     <h3 class="post-title">数据库事务机制及原理</h3>
                 </a>
-                <p class="post-description">
-                    
-                        事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部失败。简言之，数据库事务就是将一组 sql 语句组装起来，要么它们一起成功执行，否则全部失败回滚。
-                    
-                </p>
+                <p class="post-description">事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部失败。简言之，数据库事务就是将一组 sql 语句组装起来，要么它们一起成功执行，否则全部失败回滚。</p>
                 <a href="/2019/08/27/shu-ju-ku-shi-wu-ji-zhi-ji-yuan-li/" target="_blank"
-                        class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #FFCC00 0%, #FF9500 100%)">
+                        class="read-more btn waves-effect waves-light" style="background: linear-gradient(to right, #4cbf30 0%, #0f9d58 100%)">
                     <i class="icon fa fa-eye fa-fw"></i>阅读更多
                 </a>
             </div>
@@ -650,6 +677,53 @@ $(function () {
     <!-- 所有文章卡片 -->
     <article id="articles" class="container articles">
         <div class="row article-row">
+            
+            <div class="article col s12 m6 l4" data-aos="zoom-in">
+                <div class="card">
+                    <a href="/2019/09/29/java-xian-cheng-chi/">
+                        <div class="card-image">
+                            
+                            
+                            <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Java线程池">
+                            
+                            <span class="card-title">Java线程池</span>
+                        </div>
+                    </a>
+
+                    <div class="card-content article-content">
+                        <div class="summary block-with-text">
+                            
+                                线程是处理器调度的基本单位。我们会为每一个请求都独立创建一个线程，而操作系统创建线程、切换线程状态、结束线程都要使用CPU进行调度。使用线程池能够更好对线程进行管理、复用等。
+                            
+                        </div>
+                        <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-29
+                            </span>
+                            <span class="publish-author">
+                                
+                                <i class="fa fa-bookmark fa-fw icon-category"></i>
+                                
+                                <a href="/categories/多线程/" class="post-category" target="_blank">
+                                    多线程
+                                </a>
+                                
+                                
+                            </span>
+                        </div>
+                    </div>
+
+                    
+                    <div class="card-action article-tags">
+                        
+                        <a href="/tags/线程池/" target="_blank">
+                            <span class="chip bg-color">线程池</span>
+                        </a>
+                        
+                    </div>
+                    
+                </div>
+            </div>
             
             <div class="article col s12 m6 l4" data-aos="zoom-in">
                 <div class="card">
@@ -689,8 +763,8 @@ $(function () {
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/多线程/" target="_blank">
-                            <span class="chip bg-color">多线程</span>
+                        <a href="/tags/线程/" target="_blank">
+                            <span class="chip bg-color">线程</span>
                         </a>
                         
                         <a href="/tags/同步锁/" target="_blank">
@@ -740,12 +814,12 @@ $(function () {
                     
                     <div class="card-action article-tags">
                         
-                        <a href="/tags/进程/" target="_blank">
-                            <span class="chip bg-color">进程</span>
-                        </a>
-                        
                         <a href="/tags/线程/" target="_blank">
                             <span class="chip bg-color">线程</span>
+                        </a>
+                        
+                        <a href="/tags/进程/" target="_blank">
+                            <span class="chip bg-color">进程</span>
                         </a>
                         
                         <a href="/tags/内存模型/" target="_blank">
@@ -969,7 +1043,7 @@ $(function () {
 
             
                 &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-                <span class="white-color">6.7k</span>
+                <span class="white-color">7.7k</span>
             
 
             

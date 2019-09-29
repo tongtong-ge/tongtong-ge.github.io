@@ -4,9 +4,13 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="HashMap实现原理, 秦舒话">
-    <meta name="description" content="概念
-HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允许使用 null 键和 null 值，因为 key 不允许重复，因此只能有一个键为 null， HashMap 不能保证放入元素的顺序，它是无序的，和放入的顺序并不">
+    <meta name="keywords" content="Java线程池, 秦舒话">
+    <meta name="description" content="线程池的优点
+重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销。
+能有效控制线程池的最大并发数，避免大量线程之间因互相抢夺系统资源而导致的阻塞现象。
+能够对线程进行简单的管理，并提供定时执行以及指向间隔循环执行等功能。
+
+创建线">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -14,7 +18,7 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>HashMap实现原理 | 秦舒话</title>
+    <title>Java线程池 | 秦舒话</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -261,13 +265,13 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/1.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        HashMap实现原理
+                        Java线程池
                     </div>
                 </div>
             </div>
@@ -378,8 +382,8 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/HashMap/" target="_blank">
-                                <span class="chip bg-color">HashMap</span>
+                            <a href="/tags/线程池/" target="_blank">
+                                <span class="chip bg-color">线程池</span>
                             </a>
                         
                     </div>
@@ -390,8 +394,8 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/后端基础/" class="post-category" target="_blank">
-                                后端基础
+                            <a href="/categories/多线程/" class="post-category" target="_blank">
+                                多线程
                             </a>
                         
                     </div>
@@ -402,21 +406,21 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-19
+                    2019-09-29
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.8k
+                        965
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        6 分
+                        3 分
                     </div>
                     
                 
@@ -432,75 +436,99 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h3><blockquote>
-<p><code>HashMap</code> 基于 <code>Map</code> 接口实现，元素以键值对的方式存储，并且允许使用 <code>null</code> 键和 <code>null</code> 值，因为 <code>key</code> 不允许重复，因此只能有一个键为 <code>null</code>， <code>HashMap</code> 不能保证放入元素的顺序，它是<strong>无序的</strong>，和放入的顺序并不能相同。<code>HashMap</code> 是<strong>线程不安全</strong>的。</p>
+                <h3 id="线程池的优点"><a href="#线程池的优点" class="headerlink" title="线程池的优点"></a>线程池的优点</h3><ul>
+<li>重用线程池中的线程，避免因为线程的创建和销毁所带来的性能开销。</li>
+<li>能有效控制线程池的最大并发数，避免大量线程之间因互相抢夺系统资源而导致的阻塞现象。</li>
+<li>能够对线程进行简单的管理，并提供定时执行以及指向间隔循环执行等功能。</li>
+</ul>
+<h3 id="创建线程池的方法"><a href="#创建线程池的方法" class="headerlink" title="创建线程池的方法"></a>创建线程池的方法</h3><h4 id="Executors"><a href="#Executors" class="headerlink" title="Executors"></a>Executors</h4><blockquote>
+<p>直接调用<code>Executors</code>中相应的便捷方法，比如<code>Executors.newSingleThreadExecutor()</code>。<code>Executors</code>创建线程池便捷方法列表如下：</p>
 </blockquote>
-<p>注：<em>有序存储键值对数据时，可以使用 <code>LinkedHashMap</code>；要保证线程安全时，可以使用 <code>ConcurrentHashMap</code>。</em></p>
-<h3 id="实现机制"><a href="#实现机制" class="headerlink" title="实现机制"></a>实现机制</h3><blockquote>
-<p><code>HashMap</code> 由<strong>数组</strong>和<strong>链表</strong>来实现对数据的存储。<code>HashMap</code> 采用 <code>Entry</code> 数组来存储键值对，每一个键值对组成了一个 <code>Entry</code> 实体，<code>Entry</code> 类实际上是一个单向的链表结构，它具有 <code>Next</code> 指针，可以连接下一个 <code>Entry</code> 实体，以此来解决 <code>Hash</code> 冲突的问题。</p>
-</blockquote>
-<ol>
-<li>数组存储区间是连续的，占用内存严重，故空间复杂的很大。但数组的二分查找时间复杂度小，为O(1)；数组的特点是：查找容易，插入和删除困难。</li>
-<li>链表存储区间离散，占用内存比较宽松，故空间复杂度很小，但时间复杂度很大，达O(N)。链表的特点是：查找困难，插入和删除容易。</li>
-</ol>
-<p>注：<em><code>HashMap</code> 里面实现一个静态内部类 <code>Entry</code>，其重要的属性有 <code>hash</code>，<code>key</code>，<code>value</code>，<code>next</code>。</em></p>
-<p><code>HashMap</code> 存储规则：每个元素存储的是一个链表的头结点。那么一个长度16的数组中，元素是按照什么规则存放到数组中呢。是通过元素的 <code>key</code> 的哈希值（<code>key</code> 的 <code>hashcode</code> 进行二次 <code>hash</code>）对数组长度 - 1的位运算得到存储位置的下标。比如哈希值8（8 &amp; (16 - 1) = 8）、12（12 &amp; (16 - 1) = 12）、40（40 &amp; (16 - 1) = 8）、140（140 &amp; (16 - 1) = 12），所以8和40存储在数组下标为8的位置；12和140存储在数组下标为12的位置。</p>
-<p><code>HashMap</code> 链式数据结构：<code>Entry</code> 类中有一个 <code>next</code> 属性，指向下一个 <code>Entry</code>。比如第一个键值对A进来，通过计算其 <code>key</code> 的 <code>hash</code> 得到的index = 0，记做：<em>Entry[0] = A</em>；此时又有一个键值对B进来，通过计算得到的index也等于0，此时 <code>HashMap</code> 会使得<em>Entry[0] = B</em>，<em>B.next = A</em>；若这时又进来一个键值对C，同样的index等于0，此时 <code>HashMap</code> 会使得<em>Entry[0] = C</em>，<em>C.next = B</em>；index = 0的位置存储了A、B、C三个键值对，它们之间通过 <code>next</code> 这个属性链接在一起，所以<strong>数组中存储的是最后插入的元素，先插入的元素终会被放到Entry链的尾部</strong>，这里你也就明白为什么 <code>HashMap</code> 是无序的了吧。</p>
-<h3 id="扩容机制"><a href="#扩容机制" class="headerlink" title="扩容机制"></a>扩容机制</h3><blockquote>
-<p>添加元素时，会判断当前元素个数，当大于等于阈值（数组的长度 * 加载因子的值）时，就会自动扩容。扩容就是重新计算容量，但是 <code>Java</code> 中数组是无法自动扩容的，所以需要新的数组代替已有的容量小的数组。</p>
-</blockquote>
-<p><em>比如长度为16的数组，加载因子为0.75，则阈值为 <code>16 * 0.75 = 12</code>，也就是说当元素个数达到12，在添加第13个元素时会进行扩容。即  <code>16 * 2 = 32</code>，那么扩容后的容量是32。这里先抛出一个问题，为什么每次扩容都在原有容量乘以2，继续往下看。</em></p>
-<p>注：<code>HashMap</code> 使用的是懒加载，构造完 <code>HashMap</code> 对象后，只要不进行 <code>put</code> 方法插入元素之前，<code>HashMap</code> 并不会去初始化或者扩容。</p>
-<p>问题：为什么容量大小为2的n次幂效率最好？</p>
 <table>
 <thead>
 <tr>
-<th align="left">&amp; 1111</th>
-<th align="center">8</th>
-<th align="center">9</th>
-<th align="center">8</th>
-<th align="center">9</th>
+<th align="left">方法名</th>
+<th align="left">功能</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">hashcode值</td>
-<td align="center">1  0  0  0</td>
-<td align="center">1  0  0  1</td>
-<td align="center">1  0  0  0</td>
-<td align="center">1  0  0  1</td>
+<td align="left">SingleThreadExecutor()</td>
+<td align="left">创建只有一个线程的线程池</td>
 </tr>
 <tr>
-<td align="left">数组长度 - 1</td>
-<td align="center">1  1  1  1</td>
-<td align="center">1  1  1  1</td>
-<td align="center">1  1  1  0</td>
-<td align="center">1  1  1  0</td>
+<td align="left">FixedThreadPool(int nThreads)</td>
+<td align="left">创建固定大小的线程池</td>
 </tr>
 <tr>
-<td align="left">结果</td>
-<td align="center">1  0  0  0</td>
-<td align="center">1  0  0  1</td>
-<td align="center">1  0  0  0</td>
-<td align="center">1  0  0  0</td>
+<td align="left">CachedThreadPool()</td>
+<td align="left">创建一个不限线程数上限的线程池，任何提交的任务都将立即执行</td>
 </tr>
 </tbody></table>
-<p>如上表，左边两组是数组长度为16(2的4次幂)，右边两组是数组长度为15。两组的 <code>hashcode</code> 均为8 和 9，然而与 <code>1110</code> 做位运算时，产生相同的结果，也是会存储到数组的同一个位置上，这就产生了碰撞，8 和 9会被放到同一个链表上，那么查询的时候就需要遍历这个链表，降低了查询的效率。我们还可以发现，当数组长度为15的时候，<code>hashcode</code> 的值会与14（1110）进行位运算，最后一位永远是0，那 <code>0001</code>，<code>0011</code>，<code>0101</code>，<code>1001</code>，<code>1011</code>，<code>0111</code>，<code>1101</code>这几个位置永远都不能存放元素，浪费空间。数组可使用的位置比数组长度小很多，这样会增加碰撞的几率，减慢查询的效率。</p>
 <blockquote>
-<p>数组长度为2的n次幂的时候，不同的 <code>key</code> 算得的 <code>index</code> 相同的几率较小，那么数据在数组上分布就比较均匀，也就是说碰撞的几率小，相对的，查询的时候就不用遍历某个位置上的链表，这样查询效率也就较高了，所以在存储大容量数据时，最好预先指定容量大小为2的n次幂（其实不指定为2的n次幂的话，HashMap也会以大于且最接近指定值大小的2的n次幂进行初始化），也解释了上面问题，为什么 <code>HashMap</code> 每次扩容都在原有容量上乘以2。</p>
+<p>如果你阅读过阿里巴巴Java开发手册，你会看到对于并发处理中有个强制约束是线程池不允许使用 Executors 去创建，而是通过 ThreadPoolExecutor 的方式，这样的处理方式让写的同学更加明确线程池的运行规则，规避资源耗尽的风险。开发手册给出的理由如下：</p>
 </blockquote>
-<p>扩容是一个特别耗性能的操作，所以在使用 <code>HashMap</code> 的时候，估算 <code>map</code> 的大小，初始化的时候给一个大致的数值，避免 <code>map</code> 进行频繁的扩容。那么这个数值多少才是最合适的值呢，下面看一个例子。</p>
-<p>例：假如有1000个元素需要存储到 <code>HashMap</code> 中，那么根据上面提到的容量大小为2的n次幂效率最好，那么 <code>new HashMap(1024)</code> 是比较合适的，但是上面也提到了，当存储元素达到阈值时，<code>HashMap</code> 会进行扩容，那么1024 * 0.75 &lt; 1000，所以为了不进行扩展，需要size * 0.75 &gt; 1000，那么可以得出 <code>new HashMap(2048)</code> 才是最合适的。 </p>
-<h3 id="重写-hashcode-和-equals-方法"><a href="#重写-hashcode-和-equals-方法" class="headerlink" title="重写 hashcode 和 equals 方法"></a>重写 hashcode 和 equals 方法</h3><p>疑问：为什么要重写 <code>hashcode</code> 和 <code>equals</code> 方法？</p>
-<p>根据上面介绍，我们知道想查找某个元素，就需要先获取其所在位置，那么首先计算 <code>key</code> 的 <code>hashcode</code>，找到其在数组中对应的位置，然后通过 <code>key</code> 的 <code>equals</code> 方法在对应位置的链表中找到元素。因此 <code>hashcode</code> 与 <code>equals</code> 方法对于找到对应元素是两个关键方法。 </p>
-<p>重写 <code>equals</code> 方法需要满足三个条件：</p>
 <ol>
-<li>自反性：a.equals(a) == true。 </li>
-<li>对称性：a.equals(b) == true时，b.equals(a) 也为 true。 </li>
-<li>传递性：a.equals(b) == true时，且b.equals(c) == true，那么 a.equals(c) 也要为 true。 </li>
+<li><code>FixedThreadPool</code> 和 <code>SingleThreadExecutor</code>：<br> 允许的请求队列长度为<code>Integer.MAX_VALUE</code>，可能会堆积大量的请求，从而导致OOM(内存耗尽)。</li>
+<li><code>CachedThreadPool</code> 和 <code>ScheduledThreadPool</code>：<br> 允许的创建线程数量为<code>Integer.MAX_VALUE</code>，可能会堆积大量的请求，从而导致OOM。</li>
 </ol>
-<h3 id="JDK-1-8-优化"><a href="#JDK-1-8-优化" class="headerlink" title="JDK 1.8 优化"></a>JDK 1.8 优化</h3><blockquote>
-<p>以上都是基于 <code>JDK 1.7</code> 进行分析的，<code>JDK 1.8</code> 在 <code>HashMap</code> 实现方式上做了一些优化。数据结构的存储由数组+链表的方式，变化为数组+链表+红黑树的存储方式，当链表长度超过阈值（8）时，将链表转换为红黑树。性能上有了提升。</p>
+<h4 id="ThreadPoolExecutor"><a href="#ThreadPoolExecutor" class="headerlink" title="ThreadPoolExecutor"></a>ThreadPoolExecutor</h4><blockquote>
+<p> 线程池，可以将它理解为线程集合。线程池允许若个线程同时运行，运行同时运行的线程数量就是线程池的容量。线程池会通过相应的调度策略和拒绝策略，对添加到线程池中的线程进行管理。</p>
 </blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * ThreadPoolExecutor的构造器。
+ *
+ * @param corePoolSize 线程池中长期保留的线程数，即使线程处于空闲状态，也不会回收
+ *                     (除非设置了allowCoreThreadTimeOut)。
+ * @param maximumPoolSize 线程池中允许的最大线程数(要大于等于corePoolSize)
+ * @param keepAliveTime 线程数大于corePoolSize时，多余空闲线程在终止前等待新任务的最长时间
+ *                      (超过这个时间，多余空闲线程将会被回收)。
+ * @param unit keepAliveTime参数的时间单位。
+ * @param workQueue 在执行任务之前保存任务的队列(此队列仅包含由execute方法提交的runnable任务)。
+ * @param threadFactory 创建新线程的方式。
+ * @param handler 达到线程边界和队列容量而阻止执行时要使用的处理程序(拒绝策略)。
+ */</span>
+<span class="token keyword">public</span> <span class="token function">ThreadPoolExecutor</span><span class="token punctuation">(</span><span class="token keyword">int</span> corePoolSize<span class="token punctuation">,</span>
+                          <span class="token keyword">int</span> maximumPoolSize<span class="token punctuation">,</span>
+                          <span class="token keyword">long</span> keepAliveTime<span class="token punctuation">,</span>
+                          TimeUnit unit<span class="token punctuation">,</span>
+                          BlockingQueue<span class="token operator">&lt;</span>Runnable<span class="token operator">></span> workQueue<span class="token punctuation">,</span>
+                          ThreadFactory threadFactory<span class="token punctuation">,</span>
+                          RejectedExecutionHandler handler<span class="token punctuation">)</span></code></pre>
+<blockquote>
+<p>构造一个线程池7个参数，这些参数中，<code>corePoolSize</code>和<code>keepAliveTime</code>需要大于等于0，<code>maximumPoolSize</code>大于0且大于<code>corePoolSize</code>，否则会抛出<code>IllegalArgumentException</code>异常。<code>workQueue</code>，<code>threadFactory</code>和<code>handler</code>不能为null，否则会抛出空指针异常。<br><code>corePoolSize</code>和<code>maximumPoolSize</code>设置不当会影响效率，甚至耗尽线程。<br><code>workQueue</code>设置不当容易导致<code>OOM</code>。<br><code>handler</code>设置不当会导致提交任务时抛出异常。</p>
+</blockquote>
+<h4 id="拒绝策略"><a href="#拒绝策略" class="headerlink" title="拒绝策略"></a>拒绝策略</h4><blockquote>
+<p>任务队列总有占满的时候，这时候再提交新的任务时，需要有一个处理策略，<code>RejectedExecutionHandler</code>接口为我们提供了控制方式。4种常见的拒绝策略。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th align="left">拒绝策略</th>
+<th align="left">拒绝行为</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">AbortPolicy</td>
+<td align="left">抛出RejectedExecutionException</td>
+</tr>
+<tr>
+<td align="left">DiscardPolicy</td>
+<td align="left">什么也不做，直接忽略</td>
+</tr>
+<tr>
+<td align="left">DiscardOldestPolicy</td>
+<td align="left">丢弃执行队列中最老的任务，尝试为当前提交的任务腾出位置</td>
+</tr>
+<tr>
+<td align="left">CallerRunsPolicy</td>
+<td align="left">直接由提交任务者执行这个任务</td>
+</tr>
+</tbody></table>
+<p><em>线程池默认拒绝策略是AbortPolicy，抛出RejectedExecutionException异常，该异常是非受检异常，很容易忘记捕获，其实如果不关心被拒绝任务的事件，我们可以将拒绝策略设置成DiscardPolicy，这样多余的任务会被忽略。</em></p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">// 指定拒绝策略 DiscardPolicy。</span>
+ExecutorService executorService <span class="token operator">=</span> <span class="token keyword">new</span> <span class="token class-name">ThreadPoolExecutor</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> TimeUnit<span class="token punctuation">.</span>SECONDS<span class="token punctuation">,</span> 
+                <span class="token keyword">new</span> <span class="token class-name">ArrayBlockingQueue</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token number">512</span><span class="token punctuation">)</span><span class="token punctuation">,</span> 
+                <span class="token keyword">new</span> <span class="token class-name">ThreadPoolExecutor<span class="token punctuation">.</span>DiscardPolicy</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
 
             </div>
             <hr/>
@@ -535,9 +563,9 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《HashMap实现原理》
+                    《Java线程池》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/19/hashmap-shi-xian-yuan-li/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/09/29/java-xian-cheng-chi/" property="cc:attributionName"
                rel="cc:attributionURL">
                 秦舒话
             </a> 采用
@@ -578,7 +606,7 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
         repo: 'tongtong-ge.github.io',
         owner: 'tongtong-ge',
         admin: "tongtong-ge",
-        id: '2019-08-19T22-03-21',
+        id: '2019-09-29T20-55-03',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -599,46 +627,48 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/27/shu-ju-ku-shi-wu-ji-zhi-ji-yuan-li/">
+                <a href="/2019/09/29/java-xian-cheng-chi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/18.jpg" class="responsive-img" alt="数据库事务机制及原理">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Java线程池">
                         
-                        <span class="card-title">数据库事务机制及原理</span>
+                        <span class="card-title">Java线程池</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            事务指逻辑上的一组操作，组成这组操作的各个单元，要不全部成功，要不全部失败。简言之，数据库事务就是将一组 sql 语句组装起来，要么它们一起成功执行，否则全部失败回滚。
+                            线程是处理器调度的基本单位。我们会为每一个请求都独立创建一个线程，而操作系统创建线程、切换线程状态、结束线程都要使用CPU进行调度。使用线程池能够更好对线程进行管理、复用等。
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-27
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-29
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/数据库/" class="post-category" target="_blank">
-                                    数据库
+                            <a href="/categories/多线程/" class="post-category" target="_blank">
+                                    多线程
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/事务/" target="_blank">
-                        <span class="chip bg-color">事务</span>
+                    <a href="/tags/线程池/" target="_blank">
+                        <span class="chip bg-color">线程池</span>
                     </a>
                     
                 </div>
@@ -652,31 +682,31 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/14/hexo-github-da-jian-ge-ren-bo-ke/">
+                <a href="/2019/09/17/java-duo-xian-cheng-an-quan-wen-ti/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="Hexo+GitHub搭建个人博客">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="Java多线程安全问题">
                         
-                        <span class="card-title">Hexo+GitHub搭建个人博客</span>
+                        <span class="card-title">Java多线程安全问题</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            其实网上有很多博客网站，比如博客园，CSDN，简书等等，但是可以拥有个人博客站点，对自己来说也是非常酷的事情。本人通过网上教程研究下通过Hexo + GitHub来搭建自己的博客，然后整理了下重要步骤分享给大家，更重要是能够给自己一个回顾的机会。
+                            多线程安全问题，是由于多个线程在访问共享的数据（共享的资源），并且操作共享数据的语句不止一条。那么在多条操作共享数据的之间线程就可能发生切换。只要切换就有安全问题，那么我们就可以把同步加在这些操作共享数据的代码上。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-14
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-17
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/教程/" class="post-category" target="_blank">
-                                    教程
+                            <a href="/categories/多线程/" class="post-category" target="_blank">
+                                    多线程
                                 </a>
                             
                             
@@ -686,12 +716,12 @@ HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允�
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Hexo/" target="_blank">
-                        <span class="chip bg-color">Hexo</span>
+                    <a href="/tags/线程/" target="_blank">
+                        <span class="chip bg-color">线程</span>
                     </a>
                     
-                    <a href="/tags/GitHub/" target="_blank">
-                        <span class="chip bg-color">GitHub</span>
+                    <a href="/tags/同步锁/" target="_blank">
+                        <span class="chip bg-color">同步锁</span>
                     </a>
                     
                 </div>
