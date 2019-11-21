@@ -491,12 +491,12 @@
 </li>
 </ul>
 <h3 id="Sql语句优化"><a href="#Sql语句优化" class="headerlink" title="Sql语句优化"></a>Sql语句优化</h3><ul>
-<li>避免回表<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 偏移量越大，越往后，查询速度越慢。</span>
+<li>避免回表<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">#偏移量越大，越往后，查询速度越慢。</span>
 <span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">limit</span> <span class="token number">1000000</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">;</span>
 </code></pre>
 </li>
 </ul>
-<h1 id="优化后"><a href="#优化后" class="headerlink" title="优化后"></a>优化后</h1><p>select a.* from student_info s, (select student_no from student_info limit 1000000, 100) b<br>where a.student_no = b.student_no;</p>
+<p>#优化后<br>select a.* from student_info s, (select student_no from student_info limit 1000000, 100) b<br>where a.student_no = b.student_no;</p>
 <pre><code>&gt; 上面这种也是分页查询语句的一种优化方式，先查询主键，再通过主键查询数据，将提高查询速度。
 
 - 减少子查询的结果集
@@ -509,18 +509,18 @@
 
 ### 索引的增、删、改和查
 ```sql
-# 创建索引
+#创建索引
 CREATE INDEX idx_student_no ON student_info(student_no);
 ALTER TABLE student_info ADD INDEX idx_student_no(trade_no);
 
-# 删除索引
+#删除索引
 DROP INDEX idx_student_no ON student_info;
 ALTER TABLE student_info DROP INDEX idx_student_no;
 
-# 修改索引
+#修改索引
 ALTER TABLE student_info ADD INDEX idx_student_no(student_id);
 
-# 查看索引
+#查看索引
 SHOW INDEX FROM student_info;</code></pre>
             </div>
             <hr/>
