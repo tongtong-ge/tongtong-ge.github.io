@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://tongtong-ge.github.io/"/>
-  <updated>2019-09-29T13:08:51.094Z</updated>
+  <updated>2019-11-21T12:26:16.401Z</updated>
   <id>https://tongtong-ge.github.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MySql索引使用介绍</title>
+    <link href="https://tongtong-ge.github.io/2019/11/21/mysql-suo-yin-shi-yong/"/>
+    <id>https://tongtong-ge.github.io/2019/11/21/mysql-suo-yin-shi-yong/</id>
+    <published>2019-11-21T11:14:26.793Z</published>
+    <updated>2019-11-21T12:26:16.401Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;以下介绍是基于 &lt;code&gt;MySql&lt;/code&gt; 数据库，&lt;code&gt;InnoDB&lt;/code&gt;
+        
+      
+    
+    </summary>
+    
+      <category term="数据库" scheme="https://tongtong-ge.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="索引" scheme="https://tongtong-ge.github.io/tags/%E7%B4%A2%E5%BC%95/"/>
+    
+  </entry>
   
   <entry>
     <title>Java线程池</title>

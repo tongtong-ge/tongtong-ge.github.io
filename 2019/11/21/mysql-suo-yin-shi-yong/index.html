@@ -4,12 +4,12 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Hexo+GitHub搭建个人博客, 秦舒话">
-    <meta name="description" content="Hexo
-Hexo 是一个快速、简洁且高效的博客框架。Hexo 使用 Markdown（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。
+    <meta name="keywords" content="MySql索引使用介绍, 秦舒话">
+    <meta name="description" content="前言
+以下介绍是基于 MySql 数据库，InnoDB 存储引擎。
 
-GitHub
-GitHub 是一个面向开源及私有软件项目的托管平台，因为只支持 ">
+什么是索引
+索引是一个排序的列表，在这个列表中存储着索引的值和包含这个值的数据所在行的物理地址，在数据十分庞大的时候，索引可以大大加快查询的速度，这是因为使用索引后可以不">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +17,7 @@ GitHub 是一个面向开源及私有软件项目的托管平台，因为只支�
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Hexo+GitHub搭建个人博客 | 秦舒话</title>
+    <title>MySql索引使用介绍 | 秦舒话</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -264,13 +264,13 @@ GitHub 是一个面向开源及私有软件项目的托管平台，因为只支�
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Hexo+GitHub搭建个人博客
+                        MySql索引使用介绍
                     </div>
                 </div>
             </div>
@@ -381,12 +381,8 @@ GitHub 是一个面向开源及私有软件项目的托管平台，因为只支�
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/Hexo/" target="_blank">
-                                <span class="chip bg-color">Hexo</span>
-                            </a>
-                        
-                            <a href="/tags/GitHub/" target="_blank">
-                                <span class="chip bg-color">GitHub</span>
+                            <a href="/tags/索引/" target="_blank">
+                                <span class="chip bg-color">索引</span>
                             </a>
                         
                     </div>
@@ -397,8 +393,8 @@ GitHub 是一个面向开源及私有软件项目的托管平台，因为只支�
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/教程/" class="post-category" target="_blank">
-                                教程
+                            <a href="/categories/数据库/" class="post-category" target="_blank">
+                                数据库
                             </a>
                         
                     </div>
@@ -409,21 +405,21 @@ GitHub 是一个面向开源及私有软件项目的托管平台，因为只支�
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-08-14
+                    2019-11-21
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        849
+                        1.2k
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        3 分
+                        4 分
                     </div>
                     
                 
@@ -439,58 +435,93 @@ GitHub 是一个面向开源及私有软件项目的托管平台，因为只支�
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="Hexo"><a href="#Hexo" class="headerlink" title="Hexo"></a><a href="https://hexo.io/zh-cn/" target="_blank" rel="noopener">Hexo</a></h3><blockquote>
-<p><code>Hexo</code> 是一个快速、简洁且高效的博客框架。<code>Hexo</code> 使用 <code>Markdown</code>（或其他渲染引擎）解析文章，在几秒内，即可利用靓丽的主题生成静态网页。</p>
+                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
+<p>以下介绍是基于 <code>MySql</code> 数据库，<code>InnoDB</code> 存储引擎。</p>
 </blockquote>
-<h3 id="GitHub"><a href="#GitHub" class="headerlink" title="GitHub"></a><a href="https://github.com/" target="_blank" rel="noopener">GitHub</a></h3><blockquote>
-<p><code>GitHub</code> 是一个面向开源及私有软件项目的托管平台，因为只支持 <code>git</code> 作为唯一的版本库格式进行托管，故名 <code>GitHub</code>。</p>
+<h3 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h3><blockquote>
+<p>索引是一个排序的列表，在这个列表中存储着索引的值和包含这个值的数据所在行的物理地址，在数据十分庞大的时候，索引可以大大加快查询的速度，这是因为使用索引后可以不用扫描全表来定位某行的数据，而是先通过索引表找到该行数据对应的物理地址然后访问相应的数据。</p>
 </blockquote>
-<h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><h5 id="检查是否安装-Git，在-Dos-窗口下，执行下面命令。"><a href="#检查是否安装-Git，在-Dos-窗口下，执行下面命令。" class="headerlink" title="检查是否安装 Git，在 Dos 窗口下，执行下面命令。"></a>检查是否安装 <code>Git</code>，在 <code>Dos</code> 窗口下，执行下面命令。</h5><pre class=" language-dos"><code class="language-dos">git --version</code></pre>
-<h5 id="检查是否安装-Node-js，在-Dos-窗口下，执行下面命令。"><a href="#检查是否安装-Node-js，在-Dos-窗口下，执行下面命令。" class="headerlink" title="检查是否安装 Node.js，在 Dos 窗口下，执行下面命令。"></a>检查是否安装 <code>Node.js</code>，在 <code>Dos</code> 窗口下，执行下面命令。</h5><pre class=" language-dos"><code class="language-dos">node -v</code></pre>
+<h3 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h3><blockquote>
+<p>在 <code>InnoDB</code> 中，表数据文件本身就是按 <code>B+Tree</code> 组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的 <code>key</code> 是数据表的主键，因此 <code>InnoDB</code> 表数据文件本身就是主索引。</p>
+</blockquote>
+<p>注：叶节点包含了完整的数据记录，这种索引叫做聚集索引，因为 <code>InnoDB</code> 的数据文件本身要按主键聚集，所以 <code>InnoDB</code> 要求表必须有主键，如果没有显式指定，则 <code>MySql</code> 系统会自动选择一个可以唯一标识数据记录的列作为主键，如果不存在这种列，则<code>MySql</code> 自动为 <code>InnoDB</code> 表生成一个隐含字段作为主键。</p>
+<p><strong>辅助索引搜索需要检索两遍索引：首先检索辅助索引获得主键，然后用主键到主索引中检索获得记录</strong></p>
+<h3 id="建立索引注意事项"><a href="#建立索引注意事项" class="headerlink" title="建立索引注意事项"></a>建立索引注意事项</h3><ul>
+<li><p>索引并非越多越好，因为索引虽然加快了查询速度，但索引也是有代价的：索引文件本身要消耗存储空间，同时索引会加重插入、删除和修改记录时的负担，另外，<code>MySql</code> 在运行时也要消耗资源维护索引。</p>
+</li>
+<li><p>尽量选择区分度高的列作为索引,区分度的公式是 <code>count(distinct col)/count(*)</code>，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1。</p>
+</li>
+<li><p>尽量的扩展索引，不要新建索引。比如表中已经有<code>a</code>的索引，现在要加<code>(a,b)</code>的索引，那么只需要修改原来的索引即可，当然要考虑原有数据和线上使用情况（最佳前缀特性）。</p>
+</li>
+<li><p>经常与其他表进行连接的表，在连接字段上应该建立索引。</p>
+</li>
+</ul>
+<h3 id="使用索引注意事项"><a href="#使用索引注意事项" class="headerlink" title="使用索引注意事项"></a>使用索引注意事项</h3><ul>
+<li><p>最佳前缀特性：</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sutdent_info <span class="token keyword">where</span> sex <span class="token operator">=</span> <span class="token string">'男'</span> <span class="token operator">and</span> age <span class="token operator">=</span> <span class="token number">23</span><span class="token punctuation">;</span></code></pre>
 <blockquote>
-<p> 如果没有安装<a href="https://git-scm.com/downloads" target="_blank" rel="noopener">Git</a>和<a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">Node.js</a>，到官网自行下载安装，这里不作过多介绍，网上教程也比较多。安装过 <code>Git</code>，以下命令操作都统一使用 <code>Git Bash Here</code> 执行。</p>
+<p>如果在 <code>sex</code> 和 <code>age</code> 两列上创建复合索引将会带来更高的效率。如果创建 <code>(sex, age, grade)</code> 复合索引，那么相当于创建了<code>(sex)</code> 、 <code>(sex, age)</code> 和 <code>(sex, age, grade)</code> 三个索引。因此在创建复合索引时应该将最常用作限制条件的列放在最左边，依次递减。</p>
 </blockquote>
-<h3 id="安装-Hexo"><a href="#安装-Hexo" class="headerlink" title="安装 Hexo"></a>安装 Hexo</h3><h5 id="1-安装-Hexo-扩展插件，在-Git-Bash-Here-窗口下，执行下面命令。"><a href="#1-安装-Hexo-扩展插件，在-Git-Bash-Here-窗口下，执行下面命令。" class="headerlink" title="1. 安装 Hexo 扩展插件，在 Git Bash Here 窗口下，执行下面命令。"></a>1. 安装 <code>Hexo</code> 扩展插件，在 <code>Git Bash Here</code> 窗口下，执行下面命令。</h5><pre class=" language-bash"><code class="language-bash">$ <span class="token function">npm</span> <span class="token function">install</span> hexo-cli -g</code></pre>
-<h5 id="2-创建一个-blog-文件夹，存放-hexo-相应的代码。"><a href="#2-创建一个-blog-文件夹，存放-hexo-相应的代码。" class="headerlink" title="2. 创建一个 blog 文件夹，存放 hexo 相应的代码。"></a>2. 创建一个 <code>blog</code> 文件夹，存放 <code>hexo</code> 相应的代码。</h5><pre class=" language-bash"><code class="language-bash">$ hexo init blog</code></pre>
-<h5 id="3-进入-blog-文件夹。"><a href="#3-进入-blog-文件夹。" class="headerlink" title="3. 进入 blog 文件夹。"></a>3. 进入 <code>blog</code> 文件夹。</h5><pre class=" language-bash"><code class="language-bash">$ <span class="token function">cd</span> blog</code></pre>
-<h5 id="4-安装-hexo-相关代码。"><a href="#4-安装-hexo-相关代码。" class="headerlink" title="4. 安装 hexo 相关代码。"></a>4. 安装 <code>hexo</code> 相关代码。</h5><pre class=" language-bash"><code class="language-bash">$ <span class="token function">npm</span> <span class="token function">install</span></code></pre>
-<p>下面介绍下相关文件</p>
-<pre class=" language-yaml"><code class="language-yaml">node_modules          npm 文件缓存目录
-scaffolds             文夹件下存放的是文章、页面模版
-scource               文夹件下存放的是我们的资源文件
-themes                文件下存放的是我们的主题文件
-.gitignore            git 忽略文件，设置提交文件时，哪些文件不提交
-_config.yml           站点配置文件
-package.json          站点版本，站点依赖文件
-package<span class="token punctuation">-</span>lock.json     npm 各库包的依赖</code></pre>
-<h5 id="5-启动本地服务，打开-http-localhost-40000-则可以看到博客雏形了。"><a href="#5-启动本地服务，打开-http-localhost-40000-则可以看到博客雏形了。" class="headerlink" title="5. 启动本地服务，打开 http://localhost:40000 则可以看到博客雏形了。"></a>5. 启动本地服务，打开 <a href="http://localhost:40000/" target="_blank" rel="noopener">http://localhost:40000</a> 则可以看到博客雏形了。</h5><pre class=" language-bash"><code class="language-bash">$ hexo server</code></pre>
-<h3 id="修改-Hexo-主题"><a href="#修改-Hexo-主题" class="headerlink" title="修改 Hexo 主题"></a>修改 Hexo 主题</h3><h5 id="1-将主题拉到本地，并解压，执行下面命令。"><a href="#1-将主题拉到本地，并解压，执行下面命令。" class="headerlink" title="1. 将主题拉到本地，并解压，执行下面命令。"></a>1. 将主题拉到本地，并解压，执行下面命令。</h5><pre class=" language-bash"><code class="language-bash">$ <span class="token function">cd</span> themes
-$ <span class="token function">git</span> clone hexo主题GitHub地址</code></pre>
-<h5 id="2-配置-config-yml-的-theme-配置。"><a href="#2-配置-config-yml-的-theme-配置。" class="headerlink" title="2. 配置 _config.yml 的 theme 配置。"></a>2. 配置 <code>_config.yml</code> 的 <code>theme</code> 配置。</h5><pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">theme</span><span class="token punctuation">:</span> hexo主题文件夹名</code></pre>
-<h5 id="3-启动站点，执行下面命令。"><a href="#3-启动站点，执行下面命令。" class="headerlink" title="3. 启动站点，执行下面命令。"></a>3. 启动站点，执行下面命令。</h5><pre class=" language-yaml"><code class="language-yaml">cd ..  <span class="token comment" spellcheck="true">#回退到blog文件夹</span>
-hexo g <span class="token comment" spellcheck="true"># 或者 hexo generate</span>
-hexo s</code></pre>
+</li>
+<li><p>不要在列上进行运算</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">where</span> MONTH<span class="token punctuation">(</span>birthday<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span></code></pre>
 <blockquote>
-<p> 运行上述命令后，浏览器打开 <a href="http://localhost:4000" target="_blank" rel="noopener">http://localhost:4000</a> 即可本地访问我们的网站。相关配置修改可以参考你选择的 <code>hexo</code> 主题介绍。<br> 这时候你肯定会问现在博客只能本地访问，那如何能放到网上让其他人也可以访问我的博客呢？下面我们就用 <code>GitHub</code> 来充当我们的服务器，如果你还没有 <code>GitHub</code> 账号，此时你需要注册一个，网上教程很多，这里就不介绍了。</p>
+<p>索引列上进行运算时，索引将不起作用。</p>
 </blockquote>
-<h3 id="创建仓库"><a href="#创建仓库" class="headerlink" title="创建仓库"></a>创建仓库</h3><h5 id="1-点击右上角-号，然后点击-New-repository-添加仓库。"><a href="#1-点击右上角-号，然后点击-New-repository-添加仓库。" class="headerlink" title="1. 点击右上角 + 号，然后点击  New repository 添加仓库。"></a>1. 点击右上角 <code>+</code> 号，然后点击  <code>New repository</code> 添加仓库。</h5><p><img src="http://chuantu.xyz/t6/702/1565790257x2890171739.png" alt></p>
-<h5 id="2-打开网址-https-Ownner-gihub-io-则可以看到你的-GitHub-Page，这个就是你的-服务器"><a href="#2-打开网址-https-Ownner-gihub-io-则可以看到你的-GitHub-Page，这个就是你的-服务器" class="headerlink" title="2. 打开网址 https://Ownner.gihub.io 则可以看到你的 GitHub Page，这个就是你的 服务器"></a>2. 打开网址 <a href="https://Ownner.gihub.io" target="_blank" rel="noopener">https://Ownner.gihub.io</a> 则可以看到你的 <code>GitHub Page</code>，这个就是你的 <code>服务器</code></h5><blockquote>
-<p><code>Owner</code> 需要改成你自己的用户名，像我的则是 <code>tongtong-ge</code>。</p>
-</blockquote>
-<h3 id="修改网站相关设置"><a href="#修改网站相关设置" class="headerlink" title="修改网站相关设置"></a>修改网站相关设置</h3><blockquote>
-<p>网站相关设置需要在 <code>_config.yml</code> 里进行修改。对应目录为 <code>blog/_config.yml</code>。找到 <code>GitHub</code> 仓库对应的 <code>SSH</code> 地址，把 <code>SSH</code> 地址添加到 <code>depoly</code>-<code>repo</code> 配置上。</p>
-</blockquote>
-<pre class=" language-yaml"><code class="language-yaml"><span class="token key atrule">deploy</span><span class="token punctuation">:</span>
-  <span class="token key atrule">type</span><span class="token punctuation">:</span> git 
-  <span class="token key atrule">repo</span><span class="token punctuation">:</span> git@github.com<span class="token punctuation">:</span>Owner.github.io.git
-  <span class="token key atrule">branch</span><span class="token punctuation">:</span> master</code></pre>
-<h3 id="发布到-GitHub"><a href="#发布到-GitHub" class="headerlink" title="发布到 GitHub"></a>发布到 GitHub</h3><h5 id="1-生成静态文件，执行下面命令。"><a href="#1-生成静态文件，执行下面命令。" class="headerlink" title="1. 生成静态文件，执行下面命令。"></a>1. 生成静态文件，执行下面命令。</h5><pre class=" language-bash"><code class="language-bash">$ hexo g</code></pre>
-<h5 id="2-提交到远程仓库，提交之前需要安装一个扩展插件，执行下面命令。"><a href="#2-提交到远程仓库，提交之前需要安装一个扩展插件，执行下面命令。" class="headerlink" title="2. 提交到远程仓库，提交之前需要安装一个扩展插件，执行下面命令。"></a>2. 提交到远程仓库，提交之前需要安装一个扩展插件，执行下面命令。</h5><pre class=" language-bash"><code class="language-bash">$ <span class="token function">npm</span> <span class="token function">install</span> hexo-deployer-git --save <span class="token comment" spellcheck="true">#安装扩展插件</span>
-$ hexo d <span class="token comment" spellcheck="true">#提交到远程仓库</span></code></pre>
+</li>
+<li><p>不要左模糊查询</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'%三'</span><span class="token punctuation">;</span></code></pre>
 <blockquote>
-<p>执行完之后，此时你就可以在 <code>GitHub</code> 上看到提交的静态文件，同时通过 <a href="https://Owner.github.io" target="_blank" rel="noopener">https://Owner.github.io</a> 就可以访问我们的博客了。</p>
+<p>若 <code>name</code> 字段创建了索引，此时进行左模糊查询时，索引将不起作用。</p>
 </blockquote>
+</li>
+<li><p>不要隐式转化</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">where</span> student_no <span class="token operator">=</span> <span class="token number">20190923433</span><span class="token punctuation">;</span></code></pre>
+<blockquote>
+<p>如果 <code>student_no</code> 字段类型是字符串，但传入条件是数字，将会进行隐式转化，会导致索引无效。</p>
+</blockquote>
+</li>
+<li><p><code>join</code> 语句中条件字段类型需一致</p>
+<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> class_info <span class="token number">c</span>
+<span class="token keyword">join</span> student_info s <span class="token keyword">ON</span> <span class="token number">c</span><span class="token punctuation">.</span>class_no <span class="token operator">=</span> s<span class="token punctuation">.</span>class_no
+<span class="token keyword">where</span> <span class="token number">c</span><span class="token punctuation">.</span>class_no <span class="token operator">=</span> <span class="token number">20190923433</span><span class="token punctuation">;</span></code></pre>
+<blockquote>
+<p>如果 <code>class_info</code> 表和 <code>student_info</code> 表中的<code>class_no</code> 字段类型不一致，会导致索引无效。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="Sql语句优化"><a href="#Sql语句优化" class="headerlink" title="Sql语句优化"></a>Sql语句优化</h3><ul>
+<li>避免回表<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true"># 偏移量越大，越往后，查询速度越慢。</span>
+<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">limit</span> <span class="token number">1000000</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">;</span>
+</code></pre>
+</li>
+</ul>
+<h1 id="优化后"><a href="#优化后" class="headerlink" title="优化后"></a>优化后</h1><p>select a.* from student_info s, (select student_no from student_info limit 1000000, 100) b<br>where a.student_no = b.student_no;</p>
+<pre><code>&gt; 上面这种也是分页查询语句的一种优化方式，先查询主键，再通过主键查询数据，将提高查询速度。
 
+- 减少子查询的结果集
+
+- 永远用小结果集驱动大的结果集，让驱动表的结果集尽可能的小
+&gt; 小表驱动大表，join查询有在索引条件下，驱动表有索引不会使用索引，被驱动表建立索引会使用索引。在以小表驱动大表的情况下，再给大表建立索引会大大提高执行速度，给被驱动表建立索引。
+
+- 不要轻易使用`select *`
+&gt; `select *` 会更多的消耗`CPU`、内存、`IO`、网络带宽。只取需要的列。
+
+### 索引的增、删、改和查
+```sql
+# 创建索引
+CREATE INDEX idx_student_no ON student_info(student_no);
+ALTER TABLE student_info ADD INDEX idx_student_no(trade_no);
+
+# 删除索引
+DROP INDEX idx_student_no ON student_info;
+ALTER TABLE student_info DROP INDEX idx_student_no;
+
+# 修改索引
+ALTER TABLE student_info ADD INDEX idx_student_no(student_id);
+
+# 查看索引
+SHOW INDEX FROM student_info;</code></pre>
             </div>
             <hr/>
 
@@ -524,9 +555,9 @@ $ hexo d <span class="token comment" spellcheck="true">#提交到远程仓库</s
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Hexo+GitHub搭建个人博客》
+                    《MySql索引使用介绍》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/08/14/hexo-github-da-jian-ge-ren-bo-ke/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/11/21/mysql-suo-yin-shi-yong/" property="cc:attributionName"
                rel="cc:attributionURL">
                 秦舒话
             </a> 采用
@@ -567,7 +598,7 @@ $ hexo d <span class="token comment" spellcheck="true">#提交到远程仓库</s
         repo: 'tongtong-ge.github.io',
         owner: 'tongtong-ge',
         admin: "tongtong-ge",
-        id: '2019-08-14T22-19-39',
+        id: '2019-11-21T19-14-26',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -588,46 +619,48 @@ $ hexo d <span class="token comment" spellcheck="true">#提交到远程仓库</s
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/08/19/hashmap-shi-xian-yuan-li/">
+                <a href="/2019/11/21/mysql-suo-yin-shi-yong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="HashMap实现原理">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="MySql索引使用介绍">
                         
-                        <span class="card-title">HashMap实现原理</span>
+                        <span class="card-title">MySql索引使用介绍</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            HashMap 基于 Map 接口实现，元素以键值对的方式存储，并且允许使用 null 键和 null 值，因为 key 不允许重复，因此只能有一个键为 null， HashMap 不能保证放入元素的顺序，它是无序的，和放入的顺序并不能相同。HashMap 是线程不安全的。
+                            索引是一个排序的列表，在这个列表中存储着索引的值和包含这个值的数据所在行的物理地址，在数据十分庞大的时候，索引可以大大加快查询的速度，这是因为使用索引后可以不用扫描全表来定位某行的数据，而是先通过索引表找到该行数据对应的物理地址然后访问相应的数据
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-19
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-21
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/后端基础/" class="post-category" target="_blank">
-                                    后端基础
+                            <a href="/categories/数据库/" class="post-category" target="_blank">
+                                    数据库
                                 </a>
                             
                             
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/HashMap/" target="_blank">
-                        <span class="chip bg-color">HashMap</span>
+                    <a href="/tags/索引/" target="_blank">
+                        <span class="chip bg-color">索引</span>
                     </a>
                     
                 </div>
@@ -641,31 +674,31 @@ $ hexo d <span class="token comment" spellcheck="true">#提交到远程仓库</s
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/08/14/hello-world/">
+                <a href="/2019/09/29/java-xian-cheng-chi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Hello World">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Java线程池">
                         
-                        <span class="card-title">Hello World</span>
+                        <span class="card-title">Java线程池</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
+                            线程是处理器调度的基本单位。我们会为每一个请求都独立创建一个线程，而操作系统创建线程、切换线程状态、结束线程都要使用CPU进行调度。使用线程池能够更好对线程进行管理、复用等。
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-08-14
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-29
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/教程/" class="post-category" target="_blank">
-                                    教程
+                            <a href="/categories/多线程/" class="post-category" target="_blank">
+                                    多线程
                                 </a>
                             
                             
@@ -675,12 +708,8 @@ $ hexo d <span class="token comment" spellcheck="true">#提交到远程仓库</s
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/Hexo/" target="_blank">
-                        <span class="chip bg-color">Hexo</span>
-                    </a>
-                    
-                    <a href="/tags/Markdown/" target="_blank">
-                        <span class="chip bg-color">Markdown</span>
+                    <a href="/tags/线程池/" target="_blank">
+                        <span class="chip bg-color">线程池</span>
                     </a>
                     
                 </div>
