@@ -4,12 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="MySql索引使用介绍, 秦舒话">
-    <meta name="description" content="前言
-以下介绍是基于 MySql 数据库，InnoDB 存储引擎。
+    <meta name="keywords" content="函数式接口, 秦舒话">
+    <meta name="description" content="函数式接口分类Consumer
+Consumer 函数式编程接口，它包含一个有输入没输出的 accept 接口方法。
 
-什么是索引
-索引是一个排序的列表，在这个列表中存储着索引的值和包含这个值的数据所在行的物理地址，在数据十分庞大的时候，索引可以大大加快查询的速度，这是因为使用索引后可以不">
+/**
+ * Performs this operation on the given argument.
+ *
+ * ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>MySql索引使用介绍 | 秦舒话</title>
+    <title>函数式接口 | 秦舒话</title>
     <link rel="icon" type="image/png" href="/favicon.png">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -264,13 +266,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/22.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        MySql索引使用介绍
+                        函数式接口
                     </div>
                 </div>
             </div>
@@ -381,8 +383,8 @@
                     
                     <div class="article-tag">
                         
-                            <a href="/tags/索引/" target="_blank">
-                                <span class="chip bg-color">索引</span>
+                            <a href="/tags/函数式接口/" target="_blank">
+                                <span class="chip bg-color">函数式接口</span>
                             </a>
                         
                     </div>
@@ -393,8 +395,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                            <a href="/categories/数据库/" class="post-category" target="_blank">
-                                数据库
+                            <a href="/categories/后端基础/" class="post-category" target="_blank">
+                                后端基础
                             </a>
                         
                     </div>
@@ -405,21 +407,21 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-11-21
+                    2019-12-12
                 </div>
 
                 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                        1.2k
+                        988
                     </div>
                     
 
                     
                     <div class="info-break-policy">
                         <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                        4 分
+                        3 分
                     </div>
                     
                 
@@ -435,93 +437,63 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><blockquote>
-<p>以下介绍是基于 <code>MySql</code> 数据库，<code>InnoDB</code> 存储引擎。</p>
+                <h3 id="函数式接口分类"><a href="#函数式接口分类" class="headerlink" title="函数式接口分类"></a>函数式接口分类</h3><h4 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h4><blockquote>
+<p><code>Consumer</code> 函数式编程接口，它包含一个有输入没输出的 <code>accept</code> 接口方法。</p>
 </blockquote>
-<h3 id="什么是索引"><a href="#什么是索引" class="headerlink" title="什么是索引"></a>什么是索引</h3><blockquote>
-<p>索引是一个排序的列表，在这个列表中存储着索引的值和包含这个值的数据所在行的物理地址，在数据十分庞大的时候，索引可以大大加快查询的速度，这是因为使用索引后可以不用扫描全表来定位某行的数据，而是先通过索引表找到该行数据对应的物理地址然后访问相应的数据。</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * Performs this operation on the given argument.
+ *
+ * @param t the input argument
+ */</span>
+<span class="token keyword">void</span> <span class="token function">accept</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="Supplier"><a href="#Supplier" class="headerlink" title="Supplier"></a>Supplier</h4><blockquote>
+<p><code>Supplier</code> 函数式编程接口，它仅有一个 <code>get</code> 接口方法，不用传入任何参数，直接返回一个泛型 <code>T</code> 的实例，类似于无参构造器。</p>
 </blockquote>
-<h3 id="索引结构"><a href="#索引结构" class="headerlink" title="索引结构"></a>索引结构</h3><blockquote>
-<p>在 <code>InnoDB</code> 中，表数据文件本身就是按 <code>B+Tree</code> 组织的一个索引结构，这棵树的叶节点data域保存了完整的数据记录。这个索引的 <code>key</code> 是数据表的主键，因此 <code>InnoDB</code> 表数据文件本身就是主索引。</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * Gets a result.
+ *
+ * @return a result
+ */</span>
+T <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h4><blockquote>
+<p><code>Function</code> 函数式编程接口，它包含一个有输入输出的 <code>apply</code> 接口方法，返回的结果与参数的类型无关。</p>
 </blockquote>
-<p>注：叶节点包含了完整的数据记录，这种索引叫做聚集索引，因为 <code>InnoDB</code> 的数据文件本身要按主键聚集，所以 <code>InnoDB</code> 要求表必须有主键，如果没有显式指定，则 <code>MySql</code> 系统会自动选择一个可以唯一标识数据记录的列作为主键，如果不存在这种列，则<code>MySql</code> 自动为 <code>InnoDB</code> 表生成一个隐含字段作为主键。</p>
-<p><strong>辅助索引搜索需要检索两遍索引：首先检索辅助索引获得主键，然后用主键到主索引中检索获得记录</strong></p>
-<h3 id="建立索引注意事项"><a href="#建立索引注意事项" class="headerlink" title="建立索引注意事项"></a>建立索引注意事项</h3><ul>
-<li><p>索引并非越多越好，因为索引虽然加快了查询速度，但索引也是有代价的：索引文件本身要消耗存储空间，同时索引会加重插入、删除和修改记录时的负担，另外，<code>MySql</code> 在运行时也要消耗资源维护索引。</p>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * Applies this function to the given argument.
+ *
+ * @param t the function argument
+ * @return the function result
+ */</span>
+R <span class="token function">apply</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h4 id="Predicate"><a href="#Predicate" class="headerlink" title="Predicate"></a>Predicate</h4><blockquote>
+<p><code>Predicate</code> 函数式编程接口，它包含一个 <code>test</code> 接口方法，根据输入值来做逻辑判断。</p>
+</blockquote>
+<pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/**
+ * Evaluates this predicate on the given argument.
+ *
+ * @param t the input argument
+ * @return {@code true} if the input argument matches the predicate,
+ * otherwise {@code false}
+ */</span>
+<span class="token keyword">boolean</span> <span class="token function">test</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre>
+<h3 id="实战分析"><a href="#实战分析" class="headerlink" title="实战分析"></a>实战分析</h3><blockquote>
+<p>现有一个工作任务<code>worker</code>，它在运行时需实时记录所有方法的执行进度，并保存到 <code>redis</code> 缓存中，写入关键性的业务日志，执行业务方法，判断工作任务是否完成。那我们需要怎么做呢？在工作任务执行过程中调用各个方法，但是如果以后需要扩展更多处理不同业务的工作任务呢，那么类似的代码又需要写一遍，这又增加代码的维护成本，也加大了代码可阅读性。那么我们如何通过函数式方法来优化代码呢？</p>
+</blockquote>
+<ul>
+<li><p>保存方法的执行进度到 <code>redis</code> 缓存中，那么只需要进度参数，而可以不关心返回参数，这样我们可以把保存进度方法赋值到 <code>Consumer</code> 函数式方法参数 <code>funSaveWorker</code> 中，在执行保存进度时，只需要调用自身变量即可，<code>funSaveWorker.accept(t)</code>。</p>
 </li>
-<li><p>尽量选择区分度高的列作为索引,区分度的公式是 <code>count(distinct col)/count(*)</code>，表示字段不重复的比例，比例越大我们扫描的记录数越少，唯一键的区分度是1。</p>
+<li><p>写入方法执行过程中关键性业务日志，正常情况下，我们是将拼接好的业务日志直接当参数传入写入业务日志方法中，当业务日志量特别庞大时，我们可能需要关闭写入业务日志，但是这时还是会拼接业务日志，只是不再保存到业务日志方法中，但是有没有办法在关闭写入业务日志时，同时也不再创建所谓的业务日志呢，答案当时是有的。</p>
+<blockquote>
+<p>写入业务日志方法有个是否记录参数，有个拼接业务日志方法，这个方法用 <code>Supplier</code> 函数式方法，它可以直接通过 <code>StringBuilder.append</code> 来拼接业务日志，在执行拼接业务日志方法之前，可以判断是否开启记录业务日志，这样就可以达到延迟加载的效果，因为如果没有开启写入业务日志的话，<code>StringBuilder.append</code> 方法是没有执行的，这是内存中就不会保存字符串变量，减少占用内存。</p>
+</blockquote>
 </li>
-<li><p>尽量的扩展索引，不要新建索引。比如表中已经有<code>a</code>的索引，现在要加<code>(a,b)</code>的索引，那么只需要修改原来的索引即可，当然要考虑原有数据和线上使用情况（最佳前缀特性）。</p>
+<li><p>整个工作任务核心是执行业务方法，因为业务方法一般都是会返回结果的，那么我们可以将执行业务方法赋值到 <code>Function</code> 函数式方法参数 <code>doBusiness</code> 中，在执行业务方法时，只需要调用自身变量即可，<code>doBusiness.apply(T)</code>，</p>
 </li>
-<li><p>经常与其他表进行连接的表，在连接字段上应该建立索引。</p>
+<li><p>最后需要判断工作任务是否完成，以为是否完成，无非就是 <code>true or false</code>，这时我们可以通过 <code>Predicate</code> 函数式方法，判断方法执行情况判断是否是否完成，来结束工作任务。</p>
 </li>
 </ul>
-<h3 id="使用索引注意事项"><a href="#使用索引注意事项" class="headerlink" title="使用索引注意事项"></a>使用索引注意事项</h3><ul>
-<li><p>最佳前缀特性：</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> sutdent_info <span class="token keyword">where</span> sex <span class="token operator">=</span> <span class="token string">'男'</span> <span class="token operator">and</span> age <span class="token operator">=</span> <span class="token number">23</span><span class="token punctuation">;</span></code></pre>
-<blockquote>
-<p>如果在 <code>sex</code> 和 <code>age</code> 两列上创建复合索引将会带来更高的效率。如果创建 <code>(sex, age, grade)</code> 复合索引，那么相当于创建了<code>(sex)</code> 、 <code>(sex, age)</code> 和 <code>(sex, age, grade)</code> 三个索引。因此在创建复合索引时应该将最常用作限制条件的列放在最左边，依次递减。</p>
-</blockquote>
-</li>
-<li><p>不要在列上进行运算</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">where</span> MONTH<span class="token punctuation">(</span>birthday<span class="token punctuation">)</span> <span class="token operator">=</span> <span class="token number">5</span><span class="token punctuation">;</span></code></pre>
-<blockquote>
-<p>索引列上进行运算时，索引将不起作用。</p>
-</blockquote>
-</li>
-<li><p>不要左模糊查询</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">where</span> name <span class="token operator">=</span> <span class="token string">'%三'</span><span class="token punctuation">;</span></code></pre>
-<blockquote>
-<p>若 <code>name</code> 字段创建了索引，此时进行左模糊查询时，索引将不起作用。</p>
-</blockquote>
-</li>
-<li><p>不要隐式转化</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">where</span> student_no <span class="token operator">=</span> <span class="token number">20190923433</span><span class="token punctuation">;</span></code></pre>
-<blockquote>
-<p>如果 <code>student_no</code> 字段类型是字符串，但传入条件是数字，将会进行隐式转化，会导致索引无效。</p>
-</blockquote>
-</li>
-<li><p><code>join</code> 语句中条件字段类型需一致</p>
-<pre class=" language-sql"><code class="language-sql"><span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> class_info <span class="token number">c</span>
-<span class="token keyword">join</span> student_info s <span class="token keyword">ON</span> <span class="token number">c</span><span class="token punctuation">.</span>class_no <span class="token operator">=</span> s<span class="token punctuation">.</span>class_no
-<span class="token keyword">where</span> <span class="token number">c</span><span class="token punctuation">.</span>class_no <span class="token operator">=</span> <span class="token number">20190923433</span><span class="token punctuation">;</span></code></pre>
-<blockquote>
-<p>如果 <code>class_info</code> 表和 <code>student_info</code> 表中的<code>class_no</code> 字段类型不一致，会导致索引无效。</p>
-</blockquote>
-</li>
-</ul>
-<h3 id="Sql语句优化"><a href="#Sql语句优化" class="headerlink" title="Sql语句优化"></a>Sql语句优化</h3><ul>
-<li>避免回表<pre class=" language-sql"><code class="language-sql"><span class="token comment" spellcheck="true">#偏移量越大，越往后，查询速度越慢。</span>
-<span class="token keyword">select</span> <span class="token operator">*</span> <span class="token keyword">from</span> student_info <span class="token keyword">limit</span> <span class="token number">1000000</span><span class="token punctuation">,</span> <span class="token number">100</span><span class="token punctuation">;</span>
-</code></pre>
-</li>
-</ul>
-<p>#优化后<br>select a.* from student_info s, (select student_no from student_info limit 1000000, 100) b<br>where a.student_no = b.student_no;</p>
-<pre><code>&gt; 上面这种也是分页查询语句的一种优化方式，先查询主键，再通过主键查询数据，将提高查询速度。
+<p><em>配合桥接模式，可以更好的发挥函数式接口，因为每个工作任务都可以重写各个方法达到自己想要的功能点，只关系自己的功能，而且不会影响整体架构。<code>Stream</code>流与函数式接口的结合使用，同样会使得函数式接口更好的发挥其特长。</em></p>
 
-- 减少子查询的结果集
-
-- 永远用小结果集驱动大的结果集，让驱动表的结果集尽可能的小
-&gt; 小表驱动大表，join查询有在索引条件下，驱动表有索引不会使用索引，被驱动表建立索引会使用索引。在以小表驱动大表的情况下，再给大表建立索引会大大提高执行速度，给被驱动表建立索引。
-
-- 不要轻易使用`select *`
-&gt; `select *` 会更多的消耗`CPU`、内存、`IO`、网络带宽。只取需要的列。
-
-### 索引的增、删、改和查
-```sql
-#创建索引
-CREATE INDEX idx_student_no ON student_info(student_no);
-ALTER TABLE student_info ADD INDEX idx_student_no(trade_no);
-
-#删除索引
-DROP INDEX idx_student_no ON student_info;
-ALTER TABLE student_info DROP INDEX idx_student_no;
-
-#修改索引
-ALTER TABLE student_info ADD INDEX idx_student_no(student_id);
-
-#查看索引
-SHOW INDEX FROM student_info;</code></pre>
             </div>
             <hr/>
 
@@ -555,9 +527,9 @@ SHOW INDEX FROM student_info;</code></pre>
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《MySql索引使用介绍》
+                    《函数式接口》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/11/21/mysql-suo-yin-shi-yong/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/12/12/han-shu-shi-jie-kou/" property="cc:attributionName"
                rel="cc:attributionURL">
                 秦舒话
             </a> 采用
@@ -598,7 +570,7 @@ SHOW INDEX FROM student_info;</code></pre>
         repo: 'tongtong-ge.github.io',
         owner: 'tongtong-ge',
         admin: "tongtong-ge",
-        id: '2019-11-21T19-14-26',
+        id: '2019-12-12T22-40-22',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -619,9 +591,10 @@ SHOW INDEX FROM student_info;</code></pre>
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2019/12/12/han-shu-shi-jie-kou/">
                     <div class="card-image">
@@ -639,9 +612,9 @@ SHOW INDEX FROM student_info;</code></pre>
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-12
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-12
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -654,6 +627,7 @@ SHOW INDEX FROM student_info;</code></pre>
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -672,31 +646,31 @@ SHOW INDEX FROM student_info;</code></pre>
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/09/29/java-xian-cheng-chi/">
+                <a href="/2019/11/21/mysql-suo-yin-shi-yong/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Java线程池">
+                        <img src="/medias/featureimages/8.jpg" class="responsive-img" alt="MySql索引使用介绍">
                         
-                        <span class="card-title">Java线程池</span>
+                        <span class="card-title">MySql索引使用介绍</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            线程是处理器调度的基本单位。我们会为每一个请求都独立创建一个线程，而操作系统创建线程、切换线程状态、结束线程都要使用CPU进行调度。使用线程池能够更好对线程进行管理、复用等。
+                            索引是一个排序的列表，在这个列表中存储着索引的值和包含这个值的数据所在行的物理地址，在数据十分庞大的时候，索引可以大大加快查询的速度，这是因为使用索引后可以不用扫描全表来定位某行的数据，而是先通过索引表找到该行数据对应的物理地址然后访问相应的数据
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-09-29
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-21
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/多线程/" class="post-category" target="_blank">
-                                    多线程
+                            <a href="/categories/数据库/" class="post-category" target="_blank">
+                                    数据库
                                 </a>
                             
                             
@@ -706,8 +680,8 @@ SHOW INDEX FROM student_info;</code></pre>
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/线程池/" target="_blank">
-                        <span class="chip bg-color">线程池</span>
+                    <a href="/tags/索引/" target="_blank">
+                        <span class="chip bg-color">索引</span>
                     </a>
                     
                 </div>

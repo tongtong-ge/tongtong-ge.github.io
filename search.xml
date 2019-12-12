@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>函数式接口</title>
+      <link href="/2019/12/12/han-shu-shi-jie-kou/"/>
+      <url>/2019/12/12/han-shu-shi-jie-kou/</url>
+      
+        <content type="html"><![CDATA[<h3 id="函数式接口分类"><a href="#函数式接口分类" class="headerlink" title="函数式接口分类"></a>函数式接口分类</h3><h4 id="Consumer"><a href="#Consumer" class="headerlink" title="Consumer"></a>Consumer</h4><blockquote><p><code>Consumer</code> 函数式编程接口，它包含一个有输入没输出的 <code>accept</code> 接口方法。</p></blockquote><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** * Performs this operation on the given argument. * * @param t the input argument */</span><span class="token keyword">void</span> <span class="token function">accept</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><h4 id="Supplier"><a href="#Supplier" class="headerlink" title="Supplier"></a>Supplier</h4><blockquote><p><code>Supplier</code> 函数式编程接口，它仅有一个 <code>get</code> 接口方法，不用传入任何参数，直接返回一个泛型 <code>T</code> 的实例，类似于无参构造器。</p></blockquote><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** * Gets a result. * * @return a result */</span>T <span class="token function">get</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><h4 id="Function"><a href="#Function" class="headerlink" title="Function"></a>Function</h4><blockquote><p><code>Function</code> 函数式编程接口，它包含一个有输入输出的 <code>apply</code> 接口方法，返回的结果与参数的类型无关。</p></blockquote><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** * Applies this function to the given argument. * * @param t the function argument * @return the function result */</span>R <span class="token function">apply</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><h4 id="Predicate"><a href="#Predicate" class="headerlink" title="Predicate"></a>Predicate</h4><blockquote><p><code>Predicate</code> 函数式编程接口，它包含一个 <code>test</code> 接口方法，根据输入值来做逻辑判断。</p></blockquote><pre class=" language-java"><code class="language-java"><span class="token comment" spellcheck="true">/** * Evaluates this predicate on the given argument. * * @param t the input argument * @return {@code true} if the input argument matches the predicate, * otherwise {@code false} */</span><span class="token keyword">boolean</span> <span class="token function">test</span><span class="token punctuation">(</span>T t<span class="token punctuation">)</span><span class="token punctuation">;</span></code></pre><h3 id="实战分析"><a href="#实战分析" class="headerlink" title="实战分析"></a>实战分析</h3><blockquote><p>现有一个工作任务<code>worker</code>，它在运行时需实时记录所有方法的执行进度，并保存到 <code>redis</code> 缓存中，写入关键性的业务日志，执行业务方法，判断工作任务是否完成。那我们需要怎么做呢？在工作任务执行过程中调用各个方法，但是如果以后需要扩展更多处理不同业务的工作任务呢，那么类似的代码又需要写一遍，这又增加代码的维护成本，也加大了代码可阅读性。那么我们如何通过函数式方法来优化代码呢？</p></blockquote><ul><li><p>保存方法的执行进度到 <code>redis</code> 缓存中，那么只需要进度参数，而可以不关心返回参数，这样我们可以把保存进度方法赋值到 <code>Consumer</code> 函数式方法参数 <code>funSaveWorker</code> 中，在执行保存进度时，只需要调用自身变量即可，<code>funSaveWorker.accept(t)</code>。</p></li><li><p>写入方法执行过程中关键性业务日志，正常情况下，我们是将拼接好的业务日志直接当参数传入写入业务日志方法中，当业务日志量特别庞大时，我们可能需要关闭写入业务日志，但是这时还是会拼接业务日志，只是不再保存到业务日志方法中，但是有没有办法在关闭写入业务日志时，同时也不再创建所谓的业务日志呢，答案当时是有的。</p><blockquote><p>写入业务日志方法有个是否记录参数，有个拼接业务日志方法，这个方法用 <code>Supplier</code> 函数式方法，它可以直接通过 <code>StringBuilder.append</code> 来拼接业务日志，在执行拼接业务日志方法之前，可以判断是否开启记录业务日志，这样就可以达到延迟加载的效果，因为如果没有开启写入业务日志的话，<code>StringBuilder.append</code> 方法是没有执行的，这是内存中就不会保存字符串变量，减少占用内存。</p></blockquote></li><li><p>整个工作任务核心是执行业务方法，因为业务方法一般都是会返回结果的，那么我们可以将执行业务方法赋值到 <code>Function</code> 函数式方法参数 <code>doBusiness</code> 中，在执行业务方法时，只需要调用自身变量即可，<code>doBusiness.apply(T)</code>，</p></li><li><p>最后需要判断工作任务是否完成，以为是否完成，无非就是 <code>true or false</code>，这时我们可以通过 <code>Predicate</code> 函数式方法，判断方法执行情况判断是否是否完成，来结束工作任务。</p></li></ul><p><em>配合桥接模式，可以更好的发挥函数式接口，因为每个工作任务都可以重写各个方法达到自己想要的功能点，只关系自己的功能，而且不会影响整体架构。<code>Stream</code>流与函数式接口的结合使用，同样会使得函数式接口更好的发挥其特长。</em></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 后端基础 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 函数式接口 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>MySql索引使用介绍</title>
       <link href="/2019/11/21/mysql-suo-yin-shi-yong/"/>
       <url>/2019/11/21/mysql-suo-yin-shi-yong/</url>
@@ -97,9 +122,9 @@
       
         <tags>
             
-            <tag> 进程 </tag>
-            
             <tag> 线程 </tag>
+            
+            <tag> 进程 </tag>
             
             <tag> 内存模型 </tag>
             
